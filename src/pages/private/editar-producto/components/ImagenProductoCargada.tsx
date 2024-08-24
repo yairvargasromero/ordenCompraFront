@@ -5,8 +5,12 @@ import { IoCloseCircle } from 'react-icons/io5';
 interface Props {
     url:string,
     cod_producto_color_imagen:number,
+    borrarImagen:(imagenColor: {
+        cod_producto_color_imagen:number,
+        url:string
+    }) => void
 }
-export const ImagenProductoCargada = ( { url, cod_producto_color_imagen }:Props) => {
+export const ImagenProductoCargada = ( { url, cod_producto_color_imagen, borrarImagen }:Props) => {
     const [isHovered, setIsHovered] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -35,7 +39,7 @@ export const ImagenProductoCargada = ( { url, cod_producto_color_imagen }:Props)
         />
         {isHovered && (
             <IconButton
-                onClick={handleRemove}
+                onClick={()=>borrarImagen({cod_producto_color_imagen, url})}
                 style={{
                     position: 'absolute',
                     top: '10px',

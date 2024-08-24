@@ -34,7 +34,9 @@ export const EditarProducto = () => {
             <InformacionBasicaProducto codProducto={codProducto}/>
           </TabPanel>
         
-          <TabPanel value="2">  <ColorImagenProducto codProducto={codProducto}/> </TabPanel>
+          <TabPanel value="2"> 
+             <ColorImagenProducto codProducto={codProducto}/> 
+          </TabPanel>
           <TabPanel value="3">Item Three</TabPanel>
         </TabContext>
       </Box>

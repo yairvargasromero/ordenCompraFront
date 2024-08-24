@@ -25,7 +25,7 @@ export const InformacionBasicaProducto = ({ codProducto }: Props) => {
 
     useEffect(() => {
         obtenerTodasCategorias()
-        if(codProducto){
+        if (codProducto) {
             obtenerInfoBasicaDelProducto(codProducto)
         } else {
             reset(defaulValueProducto)
@@ -39,7 +39,7 @@ export const InformacionBasicaProducto = ({ codProducto }: Props) => {
         }
     }
 
-    const obtenerInfoBasicaDelProducto = async (codProducto:string) =>{
+    const obtenerInfoBasicaDelProducto = async (codProducto: string) => {
         let response = await obtenerInfoBasicaProducto(codProducto)
         if (response?.error === 0) {
             reset(response.producto)
@@ -62,10 +62,18 @@ export const InformacionBasicaProducto = ({ codProducto }: Props) => {
             <form onSubmit={handleSubmit(onSubmit)} >
 
                 <div className="flex flex-col mt-4">
-                    <TextField
-                        label="Nombre"
-                        variant="outlined"
-                        {...register('nombre', { required: true })}
+                    <Controller
+                        name="nombre"
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field }) => (
+                            <TextField
+                                label="Nombre"
+                                variant="outlined"
+                                {...field}
+                                value={field.value || ''}
+                            />
+                        )}
                     />
 
                     <Controller

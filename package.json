@@ -16,6 +16,7 @@
     "axios": "^1.7.3",
     "clsx": "^2.1.1",
     "react": "^18.3.1",
+    "react-color": "^2.19.3",
     "react-data-table-component": "^7.6.2",
     "react-dom": "^18.3.1",
     "react-dropzone": "^14.2.3",
@@ -57,6 +58,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.5.0",
+    "@types/react-color": "^3.0.12",
     "@types/react-lazy-load-image-component": "^1.6.4",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.41",

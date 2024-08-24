@@ -95,6 +95,85 @@ export const  obtenerColoresProducto = async ( codProducto:number | string ) =>{
   }
 }
 
+export const  crearColorProducto = async ( dataColor:{
+    cod_producto:number,
+    color:string,
+    color_descripcion:string
+
+  }) =>{
+  try {
+
+    let options = {
+      method: 'post',
+      url: `${actionsSettings.backendRoutes.crearColorProducto}` ,
+      headers: {
+          'Authorization': getAuthToken(),
+          'Content-Type':'multipart/form-data'
+      },
+      data:dataColor
+  }
+  const { data }: AxiosResponse<IRespuestaGeneralAction> = await axios(options);
+  return data
+  } catch (e) {
+    handleHttpError(e);
+    console.log('************')
+    console.log(e)
+    return null
+  }
+}
+
+export const  editarColorProducto = async ( dataColor:{
+  cod_producto:number,
+  color:string,
+  color_descripcion:string
+
+}, codProductoColor:number) =>{
+try {
+
+  let options = {
+    method: 'post',
+    url: `${actionsSettings.backendRoutes.editarColorProducto}/${codProductoColor}` ,
+    headers: {
+        'Authorization': getAuthToken(),
+        'Content-Type':'multipart/form-data'
+    },
+    data:dataColor
+}
+const { data }: AxiosResponse<IRespuestaGeneralAction> = await axios(options);
+return data
+} catch (e) {
+  handleHttpError(e);
+  console.log('************')
+  console.log(e)
+  return null
+}
+}
+
+
+
+export const  borrarColorProducto = async ( codProductoColor:number) =>{
+try {
+
+  let options = {
+    method: 'delete',
+    url: `${actionsSettings.backendRoutes.borrarColorProducto}/${codProductoColor}` ,
+    headers: {
+        'Authorization': getAuthToken(),
+        'Content-Type':'multipart/form-data'
+    }
+}
+const { data }: AxiosResponse<IRespuestaGeneralAction> = await axios(options);
+return data
+} catch (e) {
+  handleHttpError(e);
+  console.log('************')
+  console.log(e)
+  return null
+}
+}
+
+
+
 export const  obtenerImagenesColoresProducto = async ( codProductoColor:number | string ) =>{
   try {
 
@@ -116,11 +195,6 @@ export const  obtenerImagenesColoresProducto = async ( codProductoColor:number |
   }
 }
 
-
-
-
-
-
 export const subirImagenProducto = async ( form:FormData ) =>{
   try {
 
@@ -133,6 +207,28 @@ export const subirImagenProducto = async ( form:FormData ) =>{
       },
       data:form
      
+  }
+  const { data }: AxiosResponse<IRespuestaGeneralAction> = await axios(options);
+  return data
+  } catch (e) {
+    handleHttpError(e);
+    console.log('************')
+    console.log(e)
+    return null
+  }
+}
+
+export const  borrarImagenProducto = async ( dataImagen:{cod_producto_color_imagen:number | string, url:string } ) =>{
+  try {
+
+    let options = {
+      method: 'post',
+      url: `${actionsSettings.backendRoutes.borrarImagen}` ,
+      headers: {
+          'Authorization': getAuthToken(),
+          'Content-Type':'multipart/form-data'
+      },
+      data:dataImagen
   }
   const { data }: AxiosResponse<IRespuestaGeneralAction> = await axios(options);
   return data
