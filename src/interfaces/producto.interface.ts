@@ -1,3 +1,5 @@
+import { IRespuestaGeneralAction } from "./general.interface"
+
 export interface IProductoResumen {
     cod_producto:number,
     nombre:string,
@@ -7,6 +9,16 @@ export interface IProductoResumen {
     tiene_talla:boolean,
     tiene_color:boolean,
     sexo:string[]
+}
+
+export interface IProductoEditar{
+    nombre?: string,
+    cod_categoria?: number,
+    cod_tallaje?: number,
+    activo?: boolean,
+    talla?:string[],
+    tiene_color?: boolean,
+    tiene_talla?: boolean
 }
 
 export interface IResponseObtenerProductos {
@@ -44,6 +56,10 @@ export interface IResponseInformacionBasicaProducto{
     producto:IProductoInformacionBasica
 }
 
+export interface IResponseCreacionProducto extends IRespuestaGeneralAction{
+    cod_producto:number
+}
+
 export interface IProductoInformacionBasica{
     nombre:string,
     cod_categoria:number,
@@ -53,7 +69,8 @@ export interface IProductoInformacionBasica{
 
 export interface IResponseColoresProducto{
     error:0,
-    colores:IColorProducto[]
+    colores:IColorProducto[],
+    tiene_color:boolean
 }
 
 export interface IColorProducto{
@@ -72,4 +89,11 @@ export interface IProductoColorImagen{
     cod_producto_color_imagen:number,
     cod_producto_color:number,
     url:string
+}
+
+export interface IResponseTallasProducto{
+    error:0,
+    tallas:string[],
+    tiene_talla:boolean,
+    msg?:any
 }

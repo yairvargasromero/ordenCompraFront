@@ -4,7 +4,10 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { IProductoInformacionBasica } from '../../../../interfaces/producto.interface';
 import { obtenerCategorias } from '../../../../actions/categorias/categorias';
 import { ICategories } from '../../../../interfaces/categoria.interface';
-import { obtenerInfoBasicaProducto } from '../../../../actions/producto/producto';
+import { crearProducto, obtenerInfoBasicaProducto } from '../../../../actions/producto/producto';
+import { redirect, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import LoadingSpinnerScreen from '../../../../components/loadingSpinnerScreen/LoadingSpinnerScreen';
 
 interface Props {
     codProducto?: string
@@ -21,11 +24,14 @@ const defaulValueProducto: IProductoInformacionBasica = {
 
 export const InformacionBasicaProducto = ({ codProducto }: Props) => {
 
+    const [openLoadingSpinner, setLoadingSpinner] = useState<boolean>(false)
     const [categorias, setCategorias] = useState<ICategories[]>([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         obtenerTodasCategorias()
-        if (codProducto) {
+        if (codProducto && +codProducto !== 0) {
             obtenerInfoBasicaDelProducto(codProducto)
         } else {
             reset(defaulValueProducto)
@@ -42,6 +48,9 @@ export const InformacionBasicaProducto = ({ codProducto }: Props) => {
     const obtenerInfoBasicaDelProducto = async (codProducto: string) => {
         let response = await obtenerInfoBasicaProducto(codProducto)
         if (response?.error === 0) {
+            if(Object.keys(response.producto).length  ===  0){
+                navigate('/')
+            }
             reset(response.producto)
         }
     }
@@ -51,7 +60,21 @@ export const InformacionBasicaProducto = ({ codProducto }: Props) => {
     });
 
     const onSubmit: SubmitHandler<IProductoInformacionBasica> = async (data) => {
-        console.log('SUBMIT ', data)
+
+        if(!codProducto || +codProducto === 0){
+            setLoadingSpinner(true)
+            let response = await crearProducto(data);
+            setLoadingSpinner(false)
+            if(response){
+                if(response.error === 0){
+                    navigate('/productos/editar-producto/' + response.cod_producto)
+                }
+            }
+        }else{
+
+        }
+
+
     }
 
 
@@ -115,10 +138,11 @@ export const InformacionBasicaProducto = ({ codProducto }: Props) => {
 
 
                     <Button disabled={!isValid} type='submit'>
-                        {codProducto ? 'Editar Producto' : 'Crear Producto'}
+                        {(!codProducto || +codProducto === 0) ? 'Crear Producto' : 'Editar Producto'}
                     </Button>
                 </div>
             </form>
+            <LoadingSpinnerScreen open={openLoadingSpinner}/>
 
         </>
     )

@@ -48,6 +48,7 @@ const AppRouter: React.FC = () => {
           <Route path="producto/:codProducto" element={<ProductBySlugPage />} />
           <Route path="reportes" element={<ReportesPage />} />
           <Route path="tallajes" element={<TallajesPage />} />
+          <Route path="*" element={<PageNotFound />} />
         </Route>
 
         {/* 404 Not Found route */}

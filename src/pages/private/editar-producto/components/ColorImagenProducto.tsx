@@ -1,9 +1,9 @@
-import { Button, Card, IconButton, Input, Tooltip, Typography } from "@mui/material"
+import { Button, Card, FormControlLabel, IconButton, Input, Switch, Tooltip, Typography } from "@mui/material"
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { IoAddCircleOutline, IoCloudUploadSharp } from "react-icons/io5"
 import { ColorCircle } from "../../../../components/product/color-circle/ColorCircle"
 import { DragDropImagesProducto } from "./DragDropImagesProducto"
-import { borrarColorProducto, borrarImagenProducto, crearColorProducto, editarColorProducto, obtenerColoresProducto, obtenerImagenesColoresProducto, subirImagenProducto } from "../../../../actions/producto/producto"
+import { borrarColorProducto, borrarImagenProducto, crearColorProducto, editarColorProducto, editarProducto, obtenerColoresProducto, obtenerImagenesColoresProducto, subirImagenProducto } from "../../../../actions/producto/producto"
 import { IColorProducto, IProductoColorImagen } from "../../../../interfaces/producto.interface"
 import { ImagenProductoCargada } from "./ImagenProductoCargada"
 import { DialogColorForm } from "./DialogColorForm"
@@ -12,7 +12,7 @@ import Swal from "sweetalert2"
 import LoadingSpinnerScreen from "../../../../components/loadingSpinnerScreen/LoadingSpinnerScreen"
 
 interface Props {
-    codProducto?: string
+    codProducto: string
 }
 
 
@@ -25,8 +25,9 @@ export const ColorImagenProducto = ({ codProducto }: Props) => {
         color_descripcion: ''
     }
 
+    const [tieneColor, setTieneColor] = useState<boolean>(false)
     const [openLoadingSpinner, setLoadingSpinner] = useState<boolean>(false)
-    const [currentColor, setCurrentColor] = useState<IColorProducto>()
+    const [currentColor, setCurrentColor] = useState<IColorProducto>(colorVacio)
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [coloresProducto, setColoresProducto] = useState<IColorProducto[]>([])
     const [imagenesColor, setImagenesColor] = useState<IProductoColorImagen[]>([])
@@ -42,6 +43,7 @@ export const ColorImagenProducto = ({ codProducto }: Props) => {
         if (codProducto) {
             setLoadingSpinner(true)
             let response = await obtenerColoresProducto(codProducto)
+            setTieneColor(!!response?.tiene_color)
             setLoadingSpinner(false)
             setColoresProducto(response?.colores || [])
         }
@@ -55,7 +57,7 @@ export const ColorImagenProducto = ({ codProducto }: Props) => {
 
     }
 
-    
+
 
     // ACCIONES IMAGENES
 
@@ -86,7 +88,7 @@ export const ColorImagenProducto = ({ codProducto }: Props) => {
         }
     };
 
-    
+
 
 
     // ACCIONES COLOR
@@ -105,38 +107,38 @@ export const ColorImagenProducto = ({ codProducto }: Props) => {
         setDialogColorOpen(false);
     };
 
-    const handleFormCrearColor = async (data: { color_descripcion: string; color: string , cod_producto_color:number }) => {
-        
+    const handleFormCrearColor = async (data: { color_descripcion: string; color: string, cod_producto_color: number }) => {
+
         let dataProducto = {
-            color_descripcion:data.color_descripcion,
-            color:data.color,
-            cod_producto:codProducto ? +codProducto : 0
+            color_descripcion: data.color_descripcion,
+            color: data.color,
+            cod_producto: codProducto ? +codProducto : 0
         }
 
-        if(data.cod_producto_color !== 0){
+        if (data.cod_producto_color !== 0) {
             setLoadingSpinner(true)
             let response = await editarColorProducto(dataProducto, data.cod_producto_color)
             setLoadingSpinner(false)
-            if(response){
-            
+            if (response) {
+
                 Swal.fire(response.msg)
-                if(response.error === 0){
+                if (response.error === 0) {
                     coloresPorProducto()
                 }
             }
-        }else{
+        } else {
             setLoadingSpinner(true)
             let response = await crearColorProducto(dataProducto)
             setLoadingSpinner(false)
-            if(response){
+            if (response) {
                 Swal.fire(response.msg)
-                if(response.error === 0){
+                if (response.error === 0) {
                     coloresPorProducto()
                 }
             }
         }
 
-        
+
     };
 
     const editarColor = (color: IColorProducto) => {
@@ -145,7 +147,7 @@ export const ColorImagenProducto = ({ codProducto }: Props) => {
     }
 
     const borrarColor = async (color: IColorProducto) => {
-        let result =await Swal.fire({
+        let result = await Swal.fire({
             title: "Esta seguro que quiere borrar este color?",
             text: "Si borra este color se borraran todas las imagenes asociadas",
             showCancelButton: true,
@@ -158,29 +160,41 @@ export const ColorImagenProducto = ({ codProducto }: Props) => {
             setLoadingSpinner(true)
             let response = await borrarColorProducto(color.cod_producto_color);
             setLoadingSpinner(false)
-            if(response){
+            if (response) {
                 Swal.fire(response.msg)
-                if(response.error === 0){
+                if (response.error === 0) {
                     coloresPorProducto()
                     setCurrentColor(colorVacio);
                     setImagenesColor([])
                 }
             }
         }
-    
+
+    }
+
+    const toogleTieneColor = async (event: React.ChangeEvent<HTMLInputElement>) => {
+
+        setLoadingSpinner(true)
+        let response = await editarProducto({tiene_color:event.target.checked}, +codProducto);
+        if (response?.error === 0) {
+            console.log('****', event.target.checked)
+            setTieneColor(!event.target.checked)     
+        }
+        setLoadingSpinner(false)
+       
     }
 
     // ACCIONES IMAGEN
 
-    const borrarImagen = async ( imagenBorrar:{ cod_producto_color_imagen:number, url:string}) =>{
-       
+    const borrarImagen = async (imagenBorrar: { cod_producto_color_imagen: number, url: string }) => {
+
         setLoadingSpinner(true)
         let response = await borrarImagenProducto(imagenBorrar);
         setLoadingSpinner(false)
-        if(response){
-           
+        if (response) {
+
             Swal.fire(response.msg)
-            if(response.error === 0){
+            if (response.error === 0) {
                 getImagenesPorColores(currentColor?.cod_producto_color || 0)
             }
         }
@@ -188,66 +202,84 @@ export const ColorImagenProducto = ({ codProducto }: Props) => {
 
     return (
         <>
-            <Button variant="outlined" startIcon={<IoAddCircleOutline size={30} />} onClick={handleDialogColorOpen}>
-                Agregar Color
-            </Button>
 
-            <div className=" mt-4 py-5 flex justify-start row">
-                {coloresProducto.map((colorUnitario, index) => (
-
-                    <ColorAccionCircle
-                        key={colorUnitario.cod_producto_color}
-                        colorUnitario={colorUnitario}
-                        seleccionarColor={seleccionarColor}
-                        editarColor={editarColor}
-                        borrarColor={borrarColor}
-                    />
-                ))}
+            <div className="mx-4 w-auto my-6">
+                <FormControlLabel
+                    control={<Switch
+                        checked={tieneColor}
+                        onChange={toogleTieneColor}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                    />} label="Tiene Color ?"
+                />
             </div>
 
-            {(currentColor?.cod_producto_color !== 0) && (
-                <form onSubmit={handleSubmitCargarImagen}>
-                    <label htmlFor="file-upload" className="mx-3">
-                        <Button
-                            variant="outlined"
-                            component="span"
-                        >
-                            Escoger Imagen
+            {
+                tieneColor && (
 
-                            <Input
-                                id="file-upload"
-                                type="file"
-                                inputProps={{ accept: 'image/*' }}
-                                onChange={handleFileChange}
-                                style={{ display: 'none' }}
-                            />
+                    <>
+                        <Button variant="outlined" startIcon={<IoAddCircleOutline size={30} />} onClick={handleDialogColorOpen}>
+                            Agregar Color
                         </Button>
-                        {selectedFile && (
-                            <span className="mx-1">
-                                {selectedFile.name}
-                            </span>
+
+                        <div className=" mt-4 py-5 flex justify-start row">
+                            {coloresProducto.map((colorUnitario, index) => (
+
+                                <ColorAccionCircle
+                                    key={colorUnitario.cod_producto_color}
+                                    colorUnitario={colorUnitario}
+                                    seleccionarColor={seleccionarColor}
+                                    editarColor={editarColor}
+                                    borrarColor={borrarColor}
+                                />
+                            ))}
+                        </div>
+
+                        {(currentColor?.cod_producto_color !== 0) && (
+                            <form onSubmit={handleSubmitCargarImagen}>
+                                <label htmlFor="file-upload" className="mx-3">
+                                    <Button
+                                        variant="outlined"
+                                        component="span"
+                                    >
+                                        Escoger Imagen
+
+                                        <Input
+                                            id="file-upload"
+                                            type="file"
+                                            inputProps={{ accept: 'image/*' }}
+                                            onChange={handleFileChange}
+                                            style={{ display: 'none' }}
+                                        />
+                                    </Button>
+                                    {selectedFile && (
+                                        <span className="mx-1">
+                                            {selectedFile.name}
+                                        </span>
+                                    )}
+                                </label>
+                                <Button className="mx-3" type="submit" variant="contained" endIcon={<IoCloudUploadSharp />}>
+                                    Cargar Imagen
+                                </Button>
+                            </form>
                         )}
-                    </label>
-                    <Button className="mx-3" type="submit" variant="contained" endIcon={<IoCloudUploadSharp />}>
-                        Cargar Imagen
-                    </Button>
-                </form>
-            )}
 
-            <div className="flex justify-start mt-6">
-                {
-                    imagenesColor.map((imagen) => (
+                        <div className="flex justify-start mt-6">
+                            {
+                                imagenesColor.map((imagen) => (
 
-                        <ImagenProductoCargada
-                            key={imagen.cod_producto_color_imagen}
-                            url={imagen.url}
-                            cod_producto_color_imagen={imagen.cod_producto_color_imagen}
-                            borrarImagen = {borrarImagen}
-                        />
+                                    <ImagenProductoCargada
+                                        key={imagen.cod_producto_color_imagen}
+                                        url={imagen.url}
+                                        cod_producto_color_imagen={imagen.cod_producto_color_imagen}
+                                        borrarImagen={borrarImagen}
+                                    />
 
-                    ))
-                }
-            </div>
+                                ))
+                            }
+                        </div>
+                    </>
+                )
+            }
 
             <DialogColorForm
                 open={dialogColorOpen}
@@ -256,7 +288,7 @@ export const ColorImagenProducto = ({ codProducto }: Props) => {
                 colorInicial={currentColor}
             />
 
-            <LoadingSpinnerScreen open={openLoadingSpinner}/>
+            <LoadingSpinnerScreen open={openLoadingSpinner} />
 
         </>
     )

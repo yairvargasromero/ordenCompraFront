@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { actionsSettings} from '../settings';
 import { getAuthToken } from '../axios-helper/getToken';
 import { handleHttpError } from '../axios-helper/axiosError';
-import { IProductoInformacionBasica, IResponseColoresProducto, IResponseColorImagenes, IResponseInformacionBasicaProducto, IResponseObtenerProductoDetalle, IResponseObtenerProductos } from '../../interfaces/producto.interface';
+import { IProductoEditar, IProductoInformacionBasica, IResponseColoresProducto, IResponseColorImagenes, IResponseCreacionProducto, IResponseInformacionBasicaProducto, IResponseObtenerProductoDetalle, IResponseObtenerProductos, IResponseTallasProducto } from '../../interfaces/producto.interface';
 import { IRespuestaGeneralAction } from '../../interfaces/general.interface';
 
 export const obtenerProductos = async () =>{
@@ -73,6 +73,78 @@ export const obtenerInfoBasicaProducto = async ( codProducto:string ) =>{
     return null
   }
 }
+
+export const crearProducto = async (producto:IProductoInformacionBasica ) =>{
+  try {
+
+    let options = {
+      method: 'post',
+      url:`${actionsSettings.backendRoutes.crearProducto}`  ,
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': getAuthToken()
+      },
+      maxRedirects: 21,
+      data:producto
+     
+  }
+  const { data }: AxiosResponse<IResponseCreacionProducto> = await axios(options);
+  return data
+  } catch (e) {
+    handleHttpError(e);
+    console.log('************')
+    console.log(e)
+    return null
+  }
+}
+
+export const editarProducto = async (producto:IProductoEditar, codProducto:number  ) =>{
+  try {
+
+    let options = {
+      method: 'put',
+      url:`${actionsSettings.backendRoutes.editarProducto}/${codProducto}`  ,
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': getAuthToken()
+      },
+      maxRedirects: 21,
+      data:producto
+     
+  }
+  const { data }: AxiosResponse<IResponseCreacionProducto> = await axios(options);
+  return data
+  } catch (e) {
+    handleHttpError(e);
+    console.log('************')
+    console.log(e)
+    return null
+  }
+}
+
+export const obtenerTallasProducto = async ( codProducto:string ) =>{
+  try {
+
+    let options = {
+      method: 'get',
+      url:`${actionsSettings.backendRoutes.obtenerTallasProducto}/${codProducto}`  ,
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': getAuthToken()
+      },
+      maxRedirects: 21,
+     
+  }
+  const { data }: AxiosResponse<IResponseTallasProducto> = await axios(options);
+  return data
+  } catch (e) {
+    handleHttpError(e);
+    console.log('************')
+    console.log(e)
+    return null
+  }
+}
+
 
 export const  obtenerColoresProducto = async ( codProducto:number | string ) =>{
   try {
