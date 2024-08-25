@@ -47,6 +47,10 @@ export const ProductosPage = () => {
       selector: (row: IProductoResumen) =>  row.sexo.map((value)=> (value === "F" ? "Femenino" : "Masculino")).join(','),
     },
     {
+      name: 'Estado',
+      selector: (row: IProductoResumen) =>  (row.activo === 1) ? 'Activo' : 'Inactivo',
+    },
+    {
       name: 'Actions',
       cell: (row: IProductoResumen) => (
         <button
@@ -89,13 +93,6 @@ export const ProductosPage = () => {
   const handleClickOpen = (codProducto: number = 0) => {
     navigate(`editar-producto/${codProducto}`)
   };
-
-  // const handleClose = (actualizarCategoria: boolean) => {
-  //   if (actualizarCategoria) {
-  //     obtenerTodasproductos()
-  //   }
-  //   setOpen(false);
-  // };
 
 
   return (

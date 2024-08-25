@@ -1,8 +1,6 @@
-import { Button, Card, FormControlLabel, IconButton, Input, Switch, Tooltip, Typography } from "@mui/material"
+import { Button, FormControlLabel, Input, Switch } from "@mui/material"
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { IoAddCircleOutline, IoCloudUploadSharp } from "react-icons/io5"
-import { ColorCircle } from "../../../../components/product/color-circle/ColorCircle"
-import { DragDropImagesProducto } from "./DragDropImagesProducto"
 import { borrarColorProducto, borrarImagenProducto, crearColorProducto, editarColorProducto, editarProducto, obtenerColoresProducto, obtenerImagenesColoresProducto, subirImagenProducto } from "../../../../actions/producto/producto"
 import { IColorProducto, IProductoColorImagen } from "../../../../interfaces/producto.interface"
 import { ImagenProductoCargada } from "./ImagenProductoCargada"

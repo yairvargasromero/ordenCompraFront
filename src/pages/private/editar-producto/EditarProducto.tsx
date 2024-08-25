@@ -11,6 +11,7 @@ import { Card } from '@mui/material';
 import { InformacionBasicaProducto } from './components/InformacionBasicaProducto';
 import { ColorImagenProducto } from './components/ColorImagenProducto';
 import { TallajeProducto } from './components/TallajeProducto';
+import { BreadCrumbsProducto } from './components/BreadCrumbsProducto';
 
 export const EditarProducto = () => {
   const { codProducto } = useParams<{ codProducto: string }>();
@@ -21,38 +22,43 @@ export const EditarProducto = () => {
     setValue(newValue);
   };
   return (
-    <Card className='my-6' sx={{ minWidth: 480 }}>
-      <Box sx={{ width: '100%', typography: 'body1' }}>
-        <TabContext value={value}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Información básica" value="1" />
-              <Tab label="Color / Imagenes" value="2" disabled = {!codProducto || +codProducto === 0 } />
-              <Tab label="Tallaje" value="3" disabled = {!codProducto || +codProducto === 0}/>
-            
-            </TabList>
-          </Box>
+    <>
+      <br></br>
+      <BreadCrumbsProducto />
 
-          
-           <TabPanel value="1">
-            <InformacionBasicaProducto codProducto={codProducto}/>
-          </TabPanel>
+      <Card className='my-6' sx={{ minWidth: 480 }}>
+        <Box sx={{ width: '100%', typography: 'body1' }}>
+          <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <TabList onChange={handleChange} aria-label="lab API tabs example">
+                <Tab label="Información básica" value="1" />
+                <Tab label="Color / Imagenes" value="2" disabled={!codProducto || +codProducto === 0} />
+                <Tab label="Tallaje" value="3" disabled={!codProducto || +codProducto === 0} />
 
-          
-          <TabPanel value="2"> 
-            { (codProducto && +codProducto !== 0) && (
-             <ColorImagenProducto codProducto={codProducto}/> 
-            )}
-          </TabPanel>
-          <TabPanel value="3">
-          { (codProducto && +codProducto !== 0) && (
-            <TallajeProducto codProducto={codProducto} />
-          )}
+              </TabList>
+            </Box>
 
-          </TabPanel>
-        </TabContext>
-      </Box>
-    </Card>
+
+            <TabPanel value="1">
+              <InformacionBasicaProducto codProducto={codProducto} />
+            </TabPanel>
+
+
+            <TabPanel value="2">
+              {(codProducto && +codProducto !== 0) && (
+                <ColorImagenProducto codProducto={codProducto} />
+              )}
+            </TabPanel>
+            <TabPanel value="3">
+              {(codProducto && +codProducto !== 0) && (
+                <TallajeProducto codProducto={codProducto} />
+              )}
+
+            </TabPanel>
+          </TabContext>
+        </Box>
+      </Card>
+    </>
   );
 }
 

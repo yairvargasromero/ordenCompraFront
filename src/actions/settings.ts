@@ -27,6 +27,12 @@ export const actionsSettings  = {
         subirImagen:`${apiUrl}/producto/cargar_imagen_producto`,
         borrarImagen:`${apiUrl}/producto/borrar_imagen_producto`,
 
+        obtenerTallajes:`${apiUrl}/tallaje/obtener`,
+        crearTallaje:`${apiUrl}/tallaje/crear-tallaje`,
+        editarTallaje:`${apiUrl}/tallaje/editar-tallaje`,
+        
+        
+
         
 
         login:`${apiUrl}/users/authentication`,

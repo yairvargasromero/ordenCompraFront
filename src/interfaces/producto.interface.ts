@@ -8,7 +8,8 @@ export interface IProductoResumen {
     categoria:string,
     tiene_talla:boolean,
     tiene_color:boolean,
-    sexo:string[]
+    sexo:string[],
+    activo:1|0
 }
 
 export interface IProductoEditar{
