@@ -3,8 +3,9 @@ import axios, { AxiosResponse } from 'axios';
 import { actionsSettings } from '../settings';
 import { getAuthToken } from '../axios-helper/getToken';
 import { handleHttpError } from '../axios-helper/axiosError';
-import { ICategories, IResponseCategoriaDetalle, IResponseCategories } from '../../interfaces/categoria.interface';
+import { ICategories, IResponseCategoriaDetalle, IResponseCategoriasActivas, IResponseCategories } from '../../interfaces/categoria.interface';
 import { IRespuestaGeneralAction } from '../../interfaces/general.interface';
+import { IResponseObtenerProductos } from '../../interfaces/producto.interface';
 
 export const obtenerCategorias = async () =>{
   try {
@@ -20,6 +21,29 @@ export const obtenerCategorias = async () =>{
      
   }
   const { data }: AxiosResponse<IResponseCategories> = await axios(options);
+  return data
+  } catch (e) {
+    handleHttpError(e);
+    console.log('************')
+    console.log(e)
+    return null
+  }
+}
+
+export const obtenerCategoriasActivas = async () =>{
+  try {
+
+    let options = {
+      method: 'get',
+      url: actionsSettings.backendRoutes.obtenerCategoriasActivas,
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': getAuthToken()
+      },
+      maxRedirects: 21,
+     
+  }
+  const { data }: AxiosResponse<IResponseCategoriasActivas> = await axios(options);
   return data
   } catch (e) {
     handleHttpError(e);
@@ -98,4 +122,27 @@ export const actualizarCategoria = async (codCategoria:number, categoriaEditar:I
       console.log(e)
       return null
     }
+}
+
+export const productosPorCategoria = async ( codCategoria:number ) =>{
+  try {
+
+    let options = {
+      method: 'get',
+      url: actionsSettings.backendRoutes.productosPorCategoria + '/' + codCategoria,
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': getAuthToken()
+      },
+      maxRedirects: 21,
+     
+  }
+  const { data }: AxiosResponse<IResponseObtenerProductos> = await axios(options);
+  return data
+  } catch (e) {
+    handleHttpError(e);
+    console.log('************')
+    console.log(e)
+    return null
+  }
 }

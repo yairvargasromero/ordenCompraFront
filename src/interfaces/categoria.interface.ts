@@ -5,6 +5,17 @@ export  interface ICategories{
     sexo:('M' | 'F')[]   
 }
 
+export  interface ICategoriaActiva{
+    cod_categoria:number,
+    nombre:string;
+    activo:number;  
+}
+
+export interface IResponseCategoriasActivas{
+    error:number,
+    categorias:ICategoriaActiva[]
+}
+
 export interface IResponseCategories {
     error:number,
     categorias:ICategories[]

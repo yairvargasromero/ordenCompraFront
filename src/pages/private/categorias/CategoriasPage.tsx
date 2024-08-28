@@ -6,15 +6,16 @@ import { FormCategoria } from './ui/FormCategoria';
 import { ICategories } from '../../../interfaces/categoria.interface';
 import { obtenerCategorias } from '../../../actions/categorias/categorias';
 import { Title } from '../../../components/title/Title';
+import { useFilteredData } from '../../../hooks/useFilteredData';
 
 
 
-export const CategoriasPage =()=> {
+export const CategoriasPage = () => {
 
   const [open, setOpen] = useState(false);
   const [codigoCategoria, setCodigoCategoria] = useState(0);
   const [categorias, setCategorias] = useState<ICategories[]>([]);
-  const [search, setSearch] = useState('');
+  const { search, setSearch, filteredData } = useFilteredData(categorias);
   const columns = [
     {
       name: 'Nombre',
@@ -22,7 +23,7 @@ export const CategoriasPage =()=> {
     },
     {
       name: 'Sexo',
-      selector: (row: ICategories) =>  row.sexo.map((value)=> (value === "F" ? "Femenino" : "Masculino")).join(','),
+      selector: (row: ICategories) => row.sexo.map((value) => (value === "F" ? "Femenino" : "Masculino")).join(','),
     },
     {
       name: 'Activo',
@@ -54,19 +55,6 @@ export const CategoriasPage =()=> {
   }
 
 
-  const filteredData = categorias.filter(item =>
-    Object.values(item).some(value =>
-      value.toString()
-        .replace(/Á|á/g, 'A')
-        .replace(/É|é/g, 'E')
-        .replace(/Í|í/g, 'I')
-        .replace(/Ó|ó/g, 'O')
-        .replace(/Ú|ú/g, 'U')
-        .replace(/Ñ|ñ/g, 'N').toLowerCase().includes(search.toLowerCase())
-    )
-  );
-
-
 
   const handleClickOpen = (codCategoria: number = 0) => {
     setCodigoCategoria(codCategoria)
@@ -83,7 +71,7 @@ export const CategoriasPage =()=> {
 
   return (
     <div className="container mx-auto p-4">
-      <Title  title = "Categorias"/>
+      <Title title="Categorias" />
       <div className="mb-4">
         <input
           type="text"

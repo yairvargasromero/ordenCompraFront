@@ -44,7 +44,7 @@ export const Sidebar = () => {
   const handleLogOut  = () =>{
 
     logOut()
-    navigate('/login');
+    navigate('/auth/login');
 
   } 
   return (

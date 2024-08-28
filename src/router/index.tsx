@@ -1,6 +1,7 @@
 import { PanelLayout } from '../components/layout/PanelLayout';
 import { PageNotFound } from '../components/ui/not-found/PageNotFound';
 import { LoginPage } from '../pages/auth/LoginPage';
+import { AdminEntidad } from '../pages/private/admin-entidad/AdminEntidad';
 import { CartPage } from '../pages/private/cart/CartPage';
 import { CategoriasPage } from '../pages/private/categorias/CategoriasPage';
 import EditarProducto from '../pages/private/editar-producto/EditarProducto';
@@ -38,16 +39,22 @@ const AppRouter: React.FC = () => {
 
         {/* Private routes with layout */}
         <Route path="/" element={<PanelLayout />}>
-          <Route path="cart" element={<CartPage />} />
+          
           <Route path="categorias" element={<CategoriasPage />} />
-          <Route path="productos/editar-producto/:codProducto" element={<EditarProducto />} />
-          <Route path="empty" element={<EmptyPage />} />
-          <Route path="entidades" element={<EntidadesPage />} />
-          <Route path="ordenes-compra" element={<OrdenesCompraPage />} />
           <Route path="productos" element={<ProductosPage />} />
+          <Route path="productos/editar-producto/:codProducto" element={<EditarProducto />} />
+          <Route path="tallajes" element={<TallajesPage />} />
+          <Route path="entidades" element={<EntidadesPage />} />
+          <Route path="entidades/admin-entidad/:codEntidad" element={<AdminEntidad />} />
+
+
+          <Route path="ordenes-compra" element={<OrdenesCompraPage />} />
+
+          <Route path="empty" element={<EmptyPage />} />
+          <Route path="cart" element={<CartPage />} />
           <Route path="producto/:codProducto" element={<ProductBySlugPage />} />
           <Route path="reportes" element={<ReportesPage />} />
-          <Route path="tallajes" element={<TallajesPage />} />
+          
           <Route path="*" element={<PageNotFound />} />
         </Route>
 

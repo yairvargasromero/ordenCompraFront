@@ -98,7 +98,7 @@ export const crearProducto = async (producto: IProductoInformacionBasica) => {
   }
 }
 
-export const editarProducto = async (producto: IProductoEditar, codProducto: number) => {
+export const editarProducto = async (producto: IProductoEditar | IProductoInformacionBasica, codProducto: number) => {
   try {
 
     let options = {

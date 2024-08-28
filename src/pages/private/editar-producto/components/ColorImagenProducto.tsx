@@ -175,7 +175,6 @@ export const ColorImagenProducto = ({ codProducto }: Props) => {
         setLoadingSpinner(true)
         let response = await editarProducto({tiene_color:event.target.checked}, +codProducto);
         if (response?.error === 0) {
-            console.log('****', event.target.checked)
             setTieneColor(!event.target.checked)     
         }
         setLoadingSpinner(false)

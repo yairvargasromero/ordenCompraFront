@@ -5,9 +5,13 @@ const apiUrl = process.env.REACT_APP_BACKEND_URL;
 export const actionsSettings  = {
     backendRoutes:{
         obtenerCategorias:`${apiUrl}/categoria/obtener-todas`,
+        obtenerCategoriasActivas:`${apiUrl}/categoria/obtener-activas`,
         obtenerCategoriaDetalle:`${apiUrl}/categoria/detalle-categoria`,
         crearCategoria:`${apiUrl}/categoria/crear-categoria`,
         actualizarCategoria:`${apiUrl}/categoria/editar-categoria`,
+        productosPorCategoria:`${apiUrl}/categoria/productos-categoria`,
+
+        
 
         obtenerProductos:`${apiUrl}/producto/obtener`,
         obtenerProductoDetalle:`${apiUrl}/producto/detalle`,
@@ -19,7 +23,6 @@ export const actionsSettings  = {
         crearColorProducto:`${apiUrl}/producto/crear_color_producto`,
         editarColorProducto:`${apiUrl}/producto/editar_color_producto`,
         borrarColorProducto:`${apiUrl}/producto/borrar_color_producto`,
-
         obtenerTallasProducto:`${apiUrl}/producto/obtener_tallas`,
         
 
@@ -30,11 +33,18 @@ export const actionsSettings  = {
         obtenerTallajes:`${apiUrl}/tallaje/obtener`,
         crearTallaje:`${apiUrl}/tallaje/crear-tallaje`,
         editarTallaje:`${apiUrl}/tallaje/editar-tallaje`,
-        
-        
 
+        obtenerEntidades:`${apiUrl}/entidad/obtener`,
+        crearEntidad:`${apiUrl}/entidad/crear`,
+        obtenerInfoBasicaEntidad:`${apiUrl}/entidad/info_basica`,
+        editarEntidad:`${apiUrl}/entidad/editar_entidad`,
+        cargarUsuariosEntidad:`${apiUrl}/entidad/cargar_usuarios`,
+        obtenerUsuariosEntidad:`${apiUrl}/entidad/usuarios`,
+        crearUsuarioEntidad:`${apiUrl}/entidad/crear_usuario_entidad`,
+        actualizarUsuarioEntidad:`${apiUrl}/entidad/editar_usuario_entidad`,
         
-
+        
+        
         login:`${apiUrl}/users/authentication`,
     }
 }

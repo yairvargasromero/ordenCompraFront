@@ -5,20 +5,23 @@ import { Button } from "@mui/material";
 import { Title } from "../../../components/title/Title";
 import { obtenerTallajes } from "../../../actions/tallaje/tallaje";
 import { FormTallaje } from "./ui/FormTallaje";
+import { useFilteredData } from "../../../hooks/useFilteredData";
 
-const tallajeInicial:ITallajeResumen = {
-  cod_tallaje:0,
-  nombre:'',
-  activo:0,
-  imagen:''
+const tallajeInicial: ITallajeResumen = {
+  cod_tallaje: 0,
+  nombre: '',
+  activo: 0,
+  imagen: ''
 }
 
 export const TallajesPage = () => {
 
-  const [search, setSearch] = useState('');
+
   const [open, setOpen] = useState(false);
   const [currentTalla, setCurrentTalla] = useState<ITallajeResumen>(tallajeInicial);
   const [tallas, setTallas] = useState<ITallajeResumen[]>([]);
+  const { search, setSearch, filteredData } = useFilteredData(tallas);
+
   const columns = [
     {
       name: 'Nombre',
@@ -54,19 +57,7 @@ export const TallajesPage = () => {
   }
 
 
-  const filteredData = tallas.filter(item =>
-    Object.values(item).some(value =>
-      value.toString()
-        .replace(/Á|á/g, 'A')
-        .replace(/É|é/g, 'E')
-        .replace(/Í|í/g, 'I')
-        .replace(/Ó|ó/g, 'O')
-        .replace(/Ú|ú/g, 'U')
-        .replace(/Ñ|ñ/g, 'N').toLowerCase().includes(search.toLowerCase())
-    )
-  );
-
-  const handleClickOpen = (tallaje:ITallajeResumen) => {
+  const handleClickOpen = (tallaje: ITallajeResumen) => {
     setCurrentTalla(tallaje)
     setOpen(true)
   };
@@ -105,8 +96,8 @@ export const TallajesPage = () => {
 
 
         <FormTallaje
-          openDialog={open} 
-          onClose={handleCloseFormTallaje} 
+          openDialog={open}
+          onClose={handleCloseFormTallaje}
           tallaje={currentTalla}
         />
 

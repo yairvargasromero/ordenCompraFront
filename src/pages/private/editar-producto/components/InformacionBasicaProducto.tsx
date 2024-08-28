@@ -4,7 +4,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { IProductoInformacionBasica } from '../../../../interfaces/producto.interface';
 import { obtenerCategorias } from '../../../../actions/categorias/categorias';
 import { ICategories } from '../../../../interfaces/categoria.interface';
-import { crearProducto, obtenerInfoBasicaProducto } from '../../../../actions/producto/producto';
+import { crearProducto, editarProducto, obtenerInfoBasicaProducto } from '../../../../actions/producto/producto';
 import { redirect, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import LoadingSpinnerScreen from '../../../../components/loadingSpinnerScreen/LoadingSpinnerScreen';
@@ -71,7 +71,16 @@ export const InformacionBasicaProducto = ({ codProducto }: Props) => {
                 }
             }
         }else{
-
+            setLoadingSpinner(true)
+            let response = await editarProducto(data, +codProducto);
+            setLoadingSpinner(false)
+            if(response){
+                if(response.error === 0){
+                    if (response) {
+                        Swal.fire(response.msg)
+                    }
+                }
+            }
         }
 
 

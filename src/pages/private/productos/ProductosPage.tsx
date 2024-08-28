@@ -7,6 +7,7 @@ import { IProductoResumen } from '../../../interfaces/producto.interface';
 import { ColorCircle } from '../../../components/product/color-circle/ColorCircle';
 import { obtenerProductos } from '../../../actions/producto/producto';
 import { Title } from '../../../components/title/Title';
+import { useFilteredData } from '../../../hooks/useFilteredData';
 
 
 
@@ -14,7 +15,7 @@ export const ProductosPage = () => {
 
   const navigate = useNavigate()
   const [productos, setProductos] = useState<IProductoResumen[]>([]);
-  const [search, setSearch] = useState('');
+  const { search, setSearch, filteredData } = useFilteredData(productos);
   const columns = [
     {
       name: 'Nombre',
@@ -29,10 +30,10 @@ export const ProductosPage = () => {
       cell: (row: IProductoResumen) => (
         row.tiene_color ? (
           <div className='flex flex-row justify-center'>
-           { row.color.map((color, index) => (
-              <ColorCircle key={index} size='1' color={color.color} description = {color.color_descripcion} />
+            {row.color.map((color, index) => (
+              <ColorCircle key={index} size='1' color={color.color} description={color.color_descripcion} />
             ))
-          }
+            }
           </div>
         ) : <div></div>
       ),
@@ -44,11 +45,11 @@ export const ProductosPage = () => {
     },
     {
       name: 'Sexo',
-      selector: (row: IProductoResumen) =>  row.sexo.map((value)=> (value === "F" ? "Femenino" : "Masculino")).join(','),
+      selector: (row: IProductoResumen) => row.sexo.map((value) => (value === "F" ? "Femenino" : "Masculino")).join(','),
     },
     {
       name: 'Estado',
-      selector: (row: IProductoResumen) =>  (row.activo === 1) ? 'Activo' : 'Inactivo',
+      selector: (row: IProductoResumen) => (row.activo === 1) ? 'Activo' : 'Inactivo',
     },
     {
       name: 'Actions',
@@ -75,21 +76,6 @@ export const ProductosPage = () => {
     }
   }
 
-
-  const filteredData = productos.filter(item =>
-    Object.values(item).some(value =>
-      value.toString()
-        .replace(/Á|á/g, 'A')
-        .replace(/É|é/g, 'E')
-        .replace(/Í|í/g, 'I')
-        .replace(/Ó|ó/g, 'O')
-        .replace(/Ú|ú/g, 'U')
-        .replace(/Ñ|ñ/g, 'N').toLowerCase().includes(search.toLowerCase())
-    )
-  );
-
-
-
   const handleClickOpen = (codProducto: number = 0) => {
     navigate(`editar-producto/${codProducto}`)
   };
@@ -97,7 +83,7 @@ export const ProductosPage = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <Title  title = "Productos"/>
+      <Title title="Productos" />
       <div className="mb-4">
         <input
           type="text"
@@ -118,9 +104,6 @@ export const ProductosPage = () => {
         pagination
         highlightOnHover
       />
-
-     
-
 
     </div>
   );
