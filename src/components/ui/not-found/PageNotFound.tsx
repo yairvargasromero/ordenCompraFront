@@ -8,22 +8,13 @@ export const PageNotFound = () => {
       <div className="text-center px-5 mx-5">
         <h2 className={ `antialiased text-9xl` }>404</h2>
         <p className="font-semibold text-xl">Whoops! Lo sentimos mucho.</p>
-        <p className="font-light">
-          <span>Puedes regresar al </span>
-          <Link
-            to='/ordenes_compra'
-            className="font-normal hover:underline transition-all"
-          >
-            inicio
-          </Link>
-        </p>
       </div>
 
 
 
       <div className="px-5 mx-5">
         <LazyLoadImage
-          src="/imgs/starman_750x750.png"
+          src="/imgs/404.png"
           alt="Starman"
           className="p-5 sm:p-0"
           width={ 550 }

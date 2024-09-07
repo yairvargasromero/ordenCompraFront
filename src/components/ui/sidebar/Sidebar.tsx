@@ -16,6 +16,7 @@ import {
 import { IconType } from "react-icons";
 import { useUIStore } from "../../../store/ui/ui-store";
 import { useUserStore } from "../../../store/user/user";
+import { useCartStore } from "../../../store/cart/cart-store";
 
 // import { useRouter } from "next/navigation";
 
@@ -38,12 +39,15 @@ export const Sidebar = () => {
   const logOut = useUserStore((state)=>state.logOut)
   const session = useUserStore(state => state.user);
   
+  const clearCart = useCartStore((state)=>state.clearCart)
+
 
   const navigate = useNavigate();
   let sidebarArray = useUserStore((state)=>state.sidebarMenu)
   const handleLogOut  = () =>{
 
     logOut()
+    clearCart()
     navigate('/auth/login');
 
   } 
@@ -85,18 +89,21 @@ export const Sidebar = () => {
           session && (
             sidebarArray.map((menuItem , key) => {
               const IconComponent = iconMapping[menuItem.route];
-              return (
-                  <Link
-                    key={key}
-                    to={menuItem.route}
-                    className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-                    onClick={() => closeMenu()}
-                  >
-                     {IconComponent && <IconComponent size={30} />}
-                    <span className="ml-3 text-xl">{menuItem.label}</span>
-                  </Link>
-                
-              )
+              if(menuItem.visible === 1){
+                return (
+                    
+                    <Link
+                      key={key}
+                      to={menuItem.route}
+                      className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+                      onClick={() => closeMenu()}
+                    >
+                      {IconComponent && <IconComponent size={30} />}
+                      <span className="ml-3 text-xl">{menuItem.label}</span>
+                    </Link>
+                  
+                )
+              }
             })
           )
         }

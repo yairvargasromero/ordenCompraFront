@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Swiper as SwiperObject } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -24,7 +24,12 @@ interface Props {
 export const ProductSlideshow = ( { images, title, className }: Props ) => {
 
   const [ thumbsSwiper, setThumbsSwiper ] = useState<SwiperObject>();
+  const [imagenesMostrar, setImagenesMostrar] = useState<string[]>([])
 
+  useEffect(() => {
+    setImagenesMostrar(images)
+  }, [images])
+  
 
   return (
     <div className={ className }>
@@ -48,12 +53,12 @@ export const ProductSlideshow = ( { images, title, className }: Props ) => {
       >
 
         {
-          images.map( image => (
+          imagenesMostrar.map( image => (
             <SwiperSlide key={ image }>
               <LazyLoadImage
                 width={ 1024 }
                 height={ 800 }
-                src={ `/products/${ image }` }
+                src={ `${ image }` }
                 alt={ title }
                 className="rounded-lg object-fill"
               />
@@ -74,12 +79,12 @@ export const ProductSlideshow = ( { images, title, className }: Props ) => {
         className="mySwiper"
       >
         {
-          images.map( image => (
+          imagenesMostrar.map( image => (
             <SwiperSlide key={ image }>
               <LazyLoadImage
                 width={ 200 }
                 height={ 200 }
-                src={ `/products/${ image }` }
+                src={ `${ image }` }
                 alt={ title }
                 className="rounded-lg object-fill"
               />

@@ -5,6 +5,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { useParams } from 'react-router-dom';
 import { InformacionBasicaEntidad } from './components/InformacionBasicaEntidad';
 import { UsuariosEntidad } from './components/UsuariosEntidad';
+import { FormCordinadorEntidad } from './components/FormCordinadorEntidad';
 
 export const AdminEntidad = () => {
   const { codEntidad } = useParams<{ codEntidad: string }>();
@@ -43,9 +44,9 @@ export const AdminEntidad = () => {
               )}
             </TabPanel>
             <TabPanel value="3">
-              {/* {(codEntidad && +codEntidad !== 0) && (
-                <TallajeProducto codEntidad={codEntidad} />
-              )} */}
+              {(codEntidad && +codEntidad !== 0) && (
+                <FormCordinadorEntidad codEntidad={+codEntidad} />
+              )}
 
             </TabPanel>
           </TabContext>

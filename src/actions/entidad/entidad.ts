@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { handleHttpError } from "../axios-helper/axiosError";
 import { getAuthToken } from "../axios-helper/getToken";
 import { actionsSettings } from "../settings";
-import { IInformacionBasicaEntidad, IInformacionBasicaEntidadGuardar, IResponseCreacionEntidad, IResponseEntidadResumen, IResponseInformacionBasicaEntidad, IResponseUsuariosEntidadResumen, IUsuarioEntidadResumen } from "../../interfaces/entidad.interface";
+import { IInformacionBasicaEntidad, IInformacionBasicaEntidadGuardar, IResponseCreacionEntidad, IResponseEntidadResumen, IResponseInformacionBasicaEntidad, IResponseUsuarioCoordinador, IResponseUsuariosEntidadResumen, IUsuarioEntidadResumen } from "../../interfaces/entidad.interface";
 import { IRespuestaGeneralAction } from "../../interfaces/general.interface";
 import { IUser } from "../../interfaces/user.interfaces";
 
@@ -188,4 +188,25 @@ export const obtenerEntidades = async () => {
       console.log(e)
       return null
     }
+}
+
+export const obtenerUsuariosCoordinador = async (codEntidad:number) => {
+  try {
+
+    let options = {
+      method: 'get',
+      url: actionsSettings.backendRoutes.obtenerUsuarioCoordinador + '/' + codEntidad,
+      headers: {
+        'Authorization': getAuthToken(),
+        'Content-Type': 'application/json',
+      }
+    }
+    const { data }: AxiosResponse<IResponseUsuarioCoordinador> = await axios(options);
+    return data
+  } catch (e) {
+    handleHttpError(e);
+    console.log('************')
+    console.log(e)
+    return null
+  }
 }

@@ -21,6 +21,20 @@ export interface Product {
     size: Size;
     image: string;
   }
+
+  export interface CartProducto {
+    cod_producto:number,
+    nombre:string,
+    talla:string,
+    color:string,
+    cod_color_producto:number,
+    imagen:string,
+    cantidad:number,
+    tiene_talla:number,
+    tiene_color:number,
+    cod_categoria:number,
+    categoria:string
+  }
   
   
   

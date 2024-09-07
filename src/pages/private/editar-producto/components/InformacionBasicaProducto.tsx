@@ -17,7 +17,8 @@ interface Props {
 const defaulValueProducto: IProductoInformacionBasica = {
     nombre: '',
     cod_categoria: 0,
-    activo: 0
+    activo: 0,
+    descripcion: ''
 }
 
 
@@ -48,7 +49,7 @@ export const InformacionBasicaProducto = ({ codProducto }: Props) => {
     const obtenerInfoBasicaDelProducto = async (codProducto: string) => {
         let response = await obtenerInfoBasicaProducto(codProducto)
         if (response?.error === 0) {
-            if(Object.keys(response.producto).length  ===  0){
+            if (Object.keys(response.producto).length === 0) {
                 navigate('/')
             }
             reset(response.producto)
@@ -61,21 +62,21 @@ export const InformacionBasicaProducto = ({ codProducto }: Props) => {
 
     const onSubmit: SubmitHandler<IProductoInformacionBasica> = async (data) => {
 
-        if(!codProducto || +codProducto === 0){
+        if (!codProducto || +codProducto === 0) {
             setLoadingSpinner(true)
             let response = await crearProducto(data);
             setLoadingSpinner(false)
-            if(response){
-                if(response.error === 0){
+            if (response) {
+                if (response.error === 0) {
                     navigate('/productos/editar-producto/' + response.cod_producto)
                 }
             }
-        }else{
+        } else {
             setLoadingSpinner(true)
             let response = await editarProducto(data, +codProducto);
             setLoadingSpinner(false)
-            if(response){
-                if(response.error === 0){
+            if (response) {
+                if (response.error === 0) {
                     if (response) {
                         Swal.fire(response.msg)
                     }
@@ -145,13 +146,28 @@ export const InformacionBasicaProducto = ({ codProducto }: Props) => {
                         )}
                     />
 
+                    <br/>
+                    <Controller
+                        name="descripcion"
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field }) => (
+                            <TextField
+                                label="Descripción"
+                                variant="outlined"
+                                {...field}
+                                value={field.value || ''}
+                            />
+                        )}
+                    />
+
 
                     <Button disabled={!isValid} type='submit'>
                         {(!codProducto || +codProducto === 0) ? 'Crear Producto' : 'Editar Producto'}
                     </Button>
                 </div>
             </form>
-            <LoadingSpinnerScreen open={openLoadingSpinner}/>
+            <LoadingSpinnerScreen open={openLoadingSpinner} />
 
         </>
     )

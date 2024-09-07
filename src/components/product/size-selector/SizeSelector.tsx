@@ -3,9 +3,9 @@ import { Size } from '../../../interfaces/cart.interface';
 
 
 interface Props {
-  selectedSize?: Size;
-  availableSizes: Size[];  // ['SX', 'M', 'XL', 'XXL']
-  onSizeChanged: ( size: Size ) => void;
+  selectedSize?: string;
+  availableSizes: string[];  // ['SX', 'M', 'XL', 'XXL']
+  onSizeChanged: ( size: string ) => void;
 }
 
 

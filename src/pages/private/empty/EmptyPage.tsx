@@ -13,7 +13,7 @@ export const  EmptyPage = () => {
         </h1>
 
         <Link
-          to='/'
+          to='/ordenes-compra'
           className="text-blue-500 mt-2 text-4xl"
         >
           Regresar

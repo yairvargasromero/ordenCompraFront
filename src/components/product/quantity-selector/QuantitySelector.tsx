@@ -4,11 +4,12 @@ interface Props {
   quantity: number;
 
   onQuantityChanged: ( value: number ) => void; 
+  disabled?:boolean
 }
 
 
 
-export const QuantitySelector = ( { quantity, onQuantityChanged }: Props ) => {
+export const QuantitySelector = ( { quantity, onQuantityChanged, disabled = false }: Props ) => {
 
 
   const onValueChanged = ( value: number ) => {
@@ -20,6 +21,7 @@ export const QuantitySelector = ( { quantity, onQuantityChanged }: Props ) => {
 
 
   return (
+    <>
     <div className="flex">
       <button onClick={ () => onValueChanged( -1 ) }>
         <IoRemoveCircleOutline size={ 30 } />
@@ -29,10 +31,14 @@ export const QuantitySelector = ( { quantity, onQuantityChanged }: Props ) => {
         { quantity }
       </span>
 
-      <button onClick={ () => onValueChanged( +1 ) }>
+      <button onClick={ () => onValueChanged( +1 ) } disabled = {disabled}>
         <IoAddCircleOutline size={ 30 } />
       </button>
 
     </div>
+    {disabled && 
+      <p className='text-red-700'>Número máximo de productos alcanzado</p>
+    }
+    </>
   );
 };

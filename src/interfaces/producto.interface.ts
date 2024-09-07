@@ -12,6 +12,7 @@ export interface IProductoResumen {
     activo:1|0
 }
 
+
 export interface IProductoEditar{
     nombre?: string,
     cod_categoria?: number,
@@ -64,7 +65,8 @@ export interface IResponseCreacionProducto extends IRespuestaGeneralAction{
 export interface IProductoInformacionBasica{
     nombre:string,
     cod_categoria:number,
-    activo: 0 | 1
+    activo: 0 | 1,
+    descripcion:string
 }
 
 
@@ -96,5 +98,9 @@ export interface IResponseTallasProducto{
     error:0,
     tallas:string[],
     tiene_talla:boolean,
+    cod_tallaje:number,
     msg?:any
 }
+
+
+

@@ -7,24 +7,23 @@ export const Footer = () => {
       <Link
         to='/'
       >
-        <span className={`antialiased font-bold `}>Teslo </span>
+        <span className={`antialiased font-bold `}>BRT</span>
         <span>| shop </span>
         <span>© { new Date().getFullYear() }</span>
       </Link>
 
-      <Link
-        to='/'
-        className="mx-3"
-      >
-        Privacidad & Legal
-      </Link>
+      <div className="flex flex-col mx-4">
+        <p>Direccion de la empresa</p>
+        <p>Calle 10</p>
+      </div>
 
-      <Link
-        to='/'
-        className="mx-3"
-      >
-        Ubicaciones
-      </Link>
+      <div className="flex flex-col mx-4">
+      <p>INVERSIONES BRT SAS</p>
+      <p>901.474.311 - 8</p>
+      
+
+      <p>En caso de tener alguna novedad se puede comunicar al número 3164371825</p>
+      </div>
 
 
     </div>

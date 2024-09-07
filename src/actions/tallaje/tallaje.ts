@@ -28,6 +28,31 @@ export const obtenerTallajes = async () => {
   }
 }
 
+export const obtenerTallajesActivos = async () => {
+  try {
+
+    let options = {
+      method: 'get',
+      url: actionsSettings.backendRoutes.obtenerTallajeActivos,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': getAuthToken()
+      },
+      maxRedirects: 21,
+
+    }
+    const { data }: AxiosResponse<ITallajeResumenResponse> = await axios(options);
+    return data
+  } catch (e) {
+    handleHttpError(e);
+    console.log('************')
+    console.log(e)
+    return null
+  }
+}
+
+
+
 export const crearTallaje = async (form: FormData) => {
   try {
 
@@ -73,3 +98,5 @@ export const editarTallaje = async (form: FormData, codTallaje:number) => {
     return null
   }
 }
+
+

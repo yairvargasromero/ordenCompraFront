@@ -29,7 +29,7 @@ export const PanelLayout =() => {
     <main className="min-h-screen">
       <TopMenu />
       <Sidebar />
-      <div className="px-0 sm:px-10">
+      <div className="px-0 sm:px-10 h-100 h-screen w-full overflow-y-auto">
         <Outlet />
       </div>
       <Footer />

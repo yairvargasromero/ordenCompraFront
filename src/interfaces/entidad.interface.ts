@@ -14,13 +14,17 @@ export interface IResponseEntidadResumen {
 export interface IInformacionBasicaEntidad {
     nombre:string,
     activo:1|0,
-    cod_categorias:string[]
+    cod_categorias:string[],
+    nit:string,
+    info_contrato:string
 }
 
 export interface IInformacionBasicaEntidadGuardar {
     nombre:string,
     activo:1|0,
-    cod_categorias:{cod_categoria:number , cantidad:number}[]
+    cod_categorias:{cod_categoria:number , cantidad:number}[],
+    nit:string,
+    info_contrato:string
 }
 
 export interface IResponseCreacionEntidad extends IRespuestaGeneralAction{
@@ -34,6 +38,10 @@ export interface IResponseInformacionBasicaEntidad{
 
 export interface IResponseUsuariosEntidadResumen extends IRespuestaGeneralAction{
     usuarios:IUsuarioEntidadResumen[]
+}
+
+export interface IResponseUsuarioCoordinador extends IRespuestaGeneralAction{
+    usuario:IUsuarioEntidadResumen | null
 }
 
 export interface IUsuarioEntidadResumen{

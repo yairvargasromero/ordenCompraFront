@@ -1,3 +1,5 @@
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { PanelLayout } from '../components/layout/PanelLayout';
 import { PageNotFound } from '../components/ui/not-found/PageNotFound';
 import { LoginPage } from '../pages/auth/LoginPage';
@@ -12,23 +14,7 @@ import { ProductBySlugPage } from '../pages/private/producto/ProductBySlugPage';
 import { ProductosPage } from '../pages/private/productos/ProductosPage';
 import { ReportesPage } from '../pages/private/reportes/page';
 import { TallajesPage } from '../pages/private/tallajes/TallajesPage';
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
-// import {PageNotFound, PanelLayout} from '@/components';
-// import {
-//     CartPage, 
-//     CategoriasPage, 
-//     EditarProducto, 
-//     EmptyPage, 
-//     EntidadesPage, 
-//     LoginPage, 
-//     ProductosPage,
-//     OrdenesCompraPage,
-//     ProductBySlugPage,
-//     ReportesPage,
-//     TallajesPage
-// } from '@/pages';
+import RouteGuard from './RouteGuard';
 
 const AppRouter: React.FC = () => {
   return (
@@ -39,22 +25,18 @@ const AppRouter: React.FC = () => {
 
         {/* Private routes with layout */}
         <Route path="/" element={<PanelLayout />}>
-          
-          <Route path="categorias" element={<CategoriasPage />} />
-          <Route path="productos" element={<ProductosPage />} />
-          <Route path="productos/editar-producto/:codProducto" element={<EditarProducto />} />
-          <Route path="tallajes" element={<TallajesPage />} />
-          <Route path="entidades" element={<EntidadesPage />} />
-          <Route path="entidades/admin-entidad/:codEntidad" element={<AdminEntidad />} />
-
-
-          <Route path="ordenes-compra" element={<OrdenesCompraPage />} />
-
-          <Route path="empty" element={<EmptyPage />} />
-          <Route path="cart" element={<CartPage />} />
-          <Route path="producto/:codProducto" element={<ProductBySlugPage />} />
-          <Route path="reportes" element={<ReportesPage />} />
-          
+          <Route path="categorias" element={<RouteGuard element={<CategoriasPage />} />} />
+          <Route path="productos" element={<RouteGuard element={<ProductosPage />} />} />
+          <Route path="productos/editar-producto/:codProducto" element={<RouteGuard element={<EditarProducto />} />} />
+          <Route path="tallajes" element={<RouteGuard element={<TallajesPage />} />} />
+          <Route path="entidades" element={<RouteGuard element={<EntidadesPage />} />} />
+          <Route path="entidades/admin-entidad/:codEntidad" element={<RouteGuard element={<AdminEntidad />} />} />
+          <Route path="ordenes-compra" element={<RouteGuard element={<OrdenesCompraPage />} />} />
+          <Route path="empty" element={<RouteGuard element={<EmptyPage />} />} />
+          <Route path="cart" element={<RouteGuard element={<CartPage />} />} />
+          <Route path="producto/:codProducto" element={<RouteGuard element={<ProductBySlugPage />} />} />
+          <Route path="reportes" element={<RouteGuard element={<ReportesPage />} />} />
+          <Route path="404" element={<PageNotFound />} />
           <Route path="*" element={<PageNotFound />} />
         </Route>
 

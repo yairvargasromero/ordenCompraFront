@@ -33,6 +33,7 @@ export const actionsSettings  = {
         obtenerTallajes:`${apiUrl}/tallaje/obtener`,
         crearTallaje:`${apiUrl}/tallaje/crear-tallaje`,
         editarTallaje:`${apiUrl}/tallaje/editar-tallaje`,
+        obtenerTallajeActivos:`${apiUrl}/tallaje/obtener-activas`,
 
         obtenerEntidades:`${apiUrl}/entidad/obtener`,
         crearEntidad:`${apiUrl}/entidad/crear`,
@@ -42,6 +43,10 @@ export const actionsSettings  = {
         obtenerUsuariosEntidad:`${apiUrl}/entidad/usuarios`,
         crearUsuarioEntidad:`${apiUrl}/entidad/crear_usuario_entidad`,
         actualizarUsuarioEntidad:`${apiUrl}/entidad/editar_usuario_entidad`,
+        obtenerUsuarioCoordinador:`${apiUrl}/entidad/usuario_coordinador`,
+
+        productosUsuario:`${apiUrl}/orden_compra/productos`,
+        obtenerProductoDetalleCarro:`${apiUrl}/orden_compra/producto_detalle`,
         
         
         

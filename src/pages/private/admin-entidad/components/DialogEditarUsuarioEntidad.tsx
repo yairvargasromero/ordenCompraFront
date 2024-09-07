@@ -49,11 +49,12 @@ export const DialogEditarUsuarioEntidad = ({ codEntidad, openDialog, usuario, on
 
     const crearUsuario = async (data: Partial<IUsuarioEntidadResumen>) => {
         try {
+            setLoadingSpinner(true)
             let res = await crearUsuarioEntidad(data)
+            setLoadingSpinner(false)
             if (res) {
                 await Swal.fire(res.msg)
                 if (res?.error == 0) {
-                    console.log('VAMOS A CREAR')
                     onClose(true)
                 }
             }
@@ -68,11 +69,12 @@ export const DialogEditarUsuarioEntidad = ({ codEntidad, openDialog, usuario, on
 
     const updateUsuarioEntidad = async (data: Partial<IUsuarioEntidadResumen>) => {
         try {
+            setLoadingSpinner(true)
             let res = await actualizarUsuarioEntidad(usuario.cod_usuario, data)
+            setLoadingSpinner(false)
             if (res) {
                 Swal.fire(res.msg)
                 if (res?.error == 0) {
-                    console.log('VAMOS A EDITAR')
                     onClose(true)
                 }
             }

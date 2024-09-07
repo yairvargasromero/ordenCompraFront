@@ -9,6 +9,7 @@ import 'swiper/css/pagination';
 
 import './slideshow.css';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { useEffect, useState } from 'react';
 
 
 
@@ -21,6 +22,11 @@ interface Props {
 
 
 export const ProductMobileSlideshow = ( { images, title, className }: Props ) => {
+  const [imagenesMostrar, setImagenesMostrar] = useState<string[]>([])
+
+  useEffect(() => {
+    setImagenesMostrar(images)
+  }, [images])
 
 
   return (
@@ -40,12 +46,12 @@ export const ProductMobileSlideshow = ( { images, title, className }: Props ) =>
       >
 
         {
-          images.map( image => (
+          imagenesMostrar.map( image => (
             <SwiperSlide key={ image }>
               <LazyLoadImage
                 width={ 600 }
                 height={ 500 }
-                src={ `/products/${ image }` }
+                src={ `${ image }` }
                 alt={ title }
                 className="object-fill"
               />

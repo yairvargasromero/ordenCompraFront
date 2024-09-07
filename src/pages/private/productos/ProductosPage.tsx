@@ -70,7 +70,6 @@ export const ProductosPage = () => {
 
   const obtenerTodosProductos = async () => {
     let response = await obtenerProductos()
-    console.log(response)
     if (response?.error == 0) {
       setProductos(response.productos)
     }

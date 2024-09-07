@@ -1,10 +1,10 @@
 import { Button, Checkbox, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import React, { useEffect, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { obtenerCategorias, obtenerCategoriasActivas } from '../../../../actions/categorias/categorias';
+import { obtenerCategoriasActivas } from '../../../../actions/categorias/categorias';
 import { ICategoriaActiva } from '../../../../interfaces/categoria.interface';
-import { crearProducto, obtenerInfoBasicaProducto } from '../../../../actions/producto/producto';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import LoadingSpinnerScreen from '../../../../components/loadingSpinnerScreen/LoadingSpinnerScreen';
 import { IInformacionBasicaEntidad } from '../../../../interfaces/entidad.interface';
@@ -19,7 +19,9 @@ interface Props {
 const defaulValueProducto: IInformacionBasicaEntidad = {
     nombre: '',
     cod_categorias: [],
-    activo: 0
+    activo: 0,
+    nit: '',
+    info_contrato: ''
 }
 
 
@@ -27,6 +29,7 @@ const defaulValueProducto: IInformacionBasicaEntidad = {
 export const InformacionBasicaEntidad = ({ codEntidad }: Props) => {
 
     const [openLoadingSpinner, setLoadingSpinner] = useState<boolean>(false)
+    const [isFocused, setIsFocused] = useState(false);
     const [categorias, setCategorias] = useState<ICategoriaActiva[]>([]);
 
     const [categoriasSave, setCategoriasSave] = useState<{ cod_categoria: number, cantidad: number }[]>([]);
@@ -80,9 +83,10 @@ export const InformacionBasicaEntidad = ({ codEntidad }: Props) => {
             setLoadingSpinner(false)
             if (response) {
                 if (response.error === 0) {
-                    navigate('entidades/admin-entidad/' + response.cod_entidad)
+                    navigate('/entidades/admin-entidad/' + response.cod_entidad.toString())
                 }
             }
+
         } else {
 
             setLoadingSpinner(true)
@@ -165,6 +169,53 @@ export const InformacionBasicaEntidad = ({ codEntidad }: Props) => {
                                 {...field}
                                 value={field.value || ''}
                             />
+                        )}
+                    />
+                    <br />
+                    <Controller
+                        name="nit"
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field }) => (
+                            <TextField
+                                label="NIT"
+                                variant="outlined"
+                                {...field}
+                                value={field.value || ''}
+                            />
+                        )}
+                    />
+
+                    <Controller
+                        name="info_contrato"
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field }) => (
+                            <>
+                                <InputLabel className='mt-4'>Información del contrato</InputLabel>
+                                <TextareaAutosize
+                                    
+                                    minRows={2}
+                                    placeholder="Info..."
+                                    {...field}
+                                    value={field.value || ''}
+                                    onFocus={() => setIsFocused(true)}
+                                    onBlur={() => setIsFocused(false)}
+                                    style={{
+                                        width: '100%',
+                                        padding: '10px',
+                                        borderRadius: '4px',
+                                        border: isFocused ? '2px solid #1976d2' : '1px solid #ccc',
+                                        fontSize: '1rem',
+                                        lineHeight: '1.5',
+                                        color: '#495057',
+                                        backgroundColor: '#fff',
+                                        boxShadow: 'inset 0 1px 1px rgba(0, 0, 0, 0.075)',
+                                        transition: 'border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s',
+                                      }}
+                                />
+                            </>
+
                         )}
                     />
 

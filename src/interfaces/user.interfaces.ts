@@ -7,6 +7,8 @@ export interface IUser {
     activo?:number;
     cod_perfil:number;
     cod_entidad?:number;
+    entidad:string,
+    nit:string,
     sexo:string;
   }
 
@@ -22,4 +24,5 @@ export interface ISidebar {
     label:    string;
     route:    string;
     icono:    string;
+    visible: 1 | 0
 }
