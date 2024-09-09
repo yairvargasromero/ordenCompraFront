@@ -55,13 +55,15 @@ export const ProductSlideshow = ( { images, title, className }: Props ) => {
         {
           imagenesMostrar.map( image => (
             <SwiperSlide key={ image }>
-              <LazyLoadImage
-                width={ 1024 }
-                height={ 800 }
-                src={ `${ image }` }
-                alt={ title }
-                className="rounded-lg object-fill"
-              />
+              
+                <LazyLoadImage
+                  className="w-full object-cover rounded"
+                  width={400}
+                  src={ `${ image }` }
+                  alt={ title }
+                  // className="rounded-lg object-fill"
+                />
+              
             </SwiperSlide>
 
           ) )
