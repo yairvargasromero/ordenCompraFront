@@ -22,6 +22,10 @@ export const EntidadesPage = () => {
       selector: (row: IEntidadResumen) => row.nombre,
     },
     {
+      name: 'NIT',
+      selector: (row: IEntidadResumen) => row.nit,
+    },
+    {
       name: 'Estado',
       selector: (row: IEntidadResumen) => (row.activo === 1) ? 'Activo' : 'Inactivo',
     },

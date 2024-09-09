@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { InformacionBasicaEntidad } from './components/InformacionBasicaEntidad';
 import { UsuariosEntidad } from './components/UsuariosEntidad';
 import { FormCordinadorEntidad } from './components/FormCordinadorEntidad';
+import { CargosEntidad } from './components/CargosEntidad';
 
 export const AdminEntidad = () => {
   const { codEntidad } = useParams<{ codEntidad: string }>();
@@ -26,8 +27,9 @@ export const AdminEntidad = () => {
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} aria-label="lab API tabs example">
                 <Tab label="Información básica" value="1" />
-                <Tab label="Usuarios" value="2" disabled={!codEntidad || +codEntidad === 0} />
-                <Tab label="Coordinador" value="3" disabled={!codEntidad || +codEntidad === 0} />
+                <Tab label="Cargos usuario" value="2" disabled={!codEntidad || +codEntidad === 0} />
+                <Tab label="Usuarios" value="3" disabled={!codEntidad || +codEntidad === 0} />
+                <Tab label="Coordinador" value="4" disabled={!codEntidad || +codEntidad === 0} />
 
               </TabList>
             </Box>
@@ -37,13 +39,19 @@ export const AdminEntidad = () => {
               <InformacionBasicaEntidad codEntidad={codEntidad} />
             </TabPanel>
 
-
             <TabPanel value="2">
+              {(codEntidad && +codEntidad !== 0) && (
+                <CargosEntidad codEntidad={+codEntidad} />
+              )}
+            </TabPanel>
+
+
+            <TabPanel value="3">
               {(codEntidad && +codEntidad !== 0) && (
                 <UsuariosEntidad codEntidad={codEntidad} />
               )}
             </TabPanel>
-            <TabPanel value="3">
+            <TabPanel value="4">
               {(codEntidad && +codEntidad !== 0) && (
                 <FormCordinadorEntidad codEntidad={+codEntidad} />
               )}

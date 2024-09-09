@@ -15,6 +15,11 @@ import { ProductosPage } from '../pages/private/productos/ProductosPage';
 import { ReportesPage } from '../pages/private/reportes/page';
 import { TallajesPage } from '../pages/private/tallajes/TallajesPage';
 import RouteGuard from './RouteGuard';
+import { ResumenOrden } from '../pages/private/resumen-orden/ResumenOrden';
+import { SolicitudesDotacion } from '../pages/private/solicitud-dotacion/SolicitudesDotacion';
+import { InfoEntidadContrato } from '../pages/private/info-entidad/InfoEntidadContrato';
+import { ControlOrdenes } from '../pages/private/control-ordenes/ControlOrdenes';
+import { GuiaUso } from '../pages/private/guia-uso/GuiaUso';
 
 const AppRouter: React.FC = () => {
   return (
@@ -31,11 +36,19 @@ const AppRouter: React.FC = () => {
           <Route path="tallajes" element={<RouteGuard element={<TallajesPage />} />} />
           <Route path="entidades" element={<RouteGuard element={<EntidadesPage />} />} />
           <Route path="entidades/admin-entidad/:codEntidad" element={<RouteGuard element={<AdminEntidad />} />} />
-          <Route path="ordenes-compra" element={<RouteGuard element={<OrdenesCompraPage />} />} />
+          <Route path="ordenes-compra/:codUsuario?" element={<RouteGuard element={<OrdenesCompraPage />} />} />
           <Route path="empty" element={<RouteGuard element={<EmptyPage />} />} />
           <Route path="cart" element={<RouteGuard element={<CartPage />} />} />
           <Route path="producto/:codProducto" element={<RouteGuard element={<ProductBySlugPage />} />} />
           <Route path="reportes" element={<RouteGuard element={<ReportesPage />} />} />
+          <Route path="resumen_orden/:codUsuario" element={<RouteGuard element={<ResumenOrden />} />} />
+          
+          <Route path="guia-uso" element={<RouteGuard element={<GuiaUso />} />} />
+
+          <Route path="solicitud-dotacion" element={<RouteGuard element={<SolicitudesDotacion />} />} />
+          <Route path="control-ordenes" element={<RouteGuard element={<ControlOrdenes />} />} />
+          <Route path="info-entidad" element={<RouteGuard element={<InfoEntidadContrato />} />} />
+
           <Route path="404" element={<PageNotFound />} />
           <Route path="*" element={<PageNotFound />} />
         </Route>

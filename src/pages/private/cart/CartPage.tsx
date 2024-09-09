@@ -1,19 +1,32 @@
 
 import { ProductsInCart } from './ui/ProductsInCart';
 import { OrderSummary } from './ui/OrderSummary';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Title } from '../../../components/title/Title';
 import { ControlCategorias } from './ui/ControlCategorias';
 import { Button } from '@mui/material';
 import { useCartStore } from '../../../store/cart/cart-store';
+import { DialogPoliticas } from './ui/DialogPoliticas';
+import { useState } from 'react';
+import Swal from 'sweetalert2';
+import { useUserStore } from '../../../store/user/user';
+import { crearOrdenCompra } from '../../../actions/orden_compra/orden_compra';
 
 export const CartPage = () => {
-  const categoriasSeleccionada = useCartStore(state => state.categoriasSeleccionada);
+  const [openDialog, setOpenDialog] = useState(false)
+  const navigate = useNavigate()
+  const {
+    categoriasSeleccionada,
+    cart,
+    usuarioOrden,
+    clearCart,
+  } = useCartStore(state => state);
+  
+  const { user } = useUserStore(state => state);
 
   const verificarCantidad = () => {
     let verificacion = false
     if (categoriasSeleccionada && Object.keys(categoriasSeleccionada).length > 0) {
-      console.log(Object.keys(categoriasSeleccionada))
       for (const key of Object.keys(categoriasSeleccionada)) {
         let categoria = categoriasSeleccionada[key]
         if (categoria.cantidadMaxima !== categoria.cantidadSeleccionada) {
@@ -23,6 +36,36 @@ export const CartPage = () => {
       }
     }
     return verificacion
+  }
+
+  const handleDialogCrearOrden = async (crearOrden?:boolean) =>{
+    try {
+    
+      setOpenDialog(false)
+
+      if(crearOrden){
+
+        let data = {
+          cod_usuario_creacion:user?.cod_usuario || 0,
+          cod_usuario:usuarioOrden?.cod_usuario || 0,
+          productos:cart
+        }
+        let res = await crearOrdenCompra(data)
+        if(res){
+          await Swal.fire(res.msg)
+          if(res?.error == 0){
+            clearCart()
+            navigate('/resumen_orden/' + data.cod_usuario)
+          }
+        }
+      } 
+    } catch (e) {
+      console.log(e)
+      Swal.fire({
+        icon:'error',
+        text:'Error, comuniquese con el administrador'
+      })      
+    }
   }
 
   return (
@@ -40,7 +83,7 @@ export const CartPage = () => {
             {/* Carrito */}
             <div className="flex flex-col mt-5">
               <span className="text-xl">Agregar más items</span>
-              <Link to="/ordenes-compra" className="underline mb-5">
+              <Link to={`/ordenes-compra/${usuarioOrden?.cod_usuario}`} className="underline mb-5">
                 Continúa comprando
               </Link>
 
@@ -57,21 +100,18 @@ export const CartPage = () => {
               <OrderSummary />
 
               <div className="mt-5 mb-2 w-full">
-                <Button variant='contained' disabled={verificarCantidad()}>Crear Solicitud de dotación </Button>
+                <Button variant='contained' disabled={verificarCantidad()} onClick={()=>setOpenDialog(true)}>Crear Solicitud de dotación </Button>
               </div>
+
+              <DialogPoliticas 
+                open={openDialog}
+                onClose={handleDialogCrearOrden}
+              />
 
 
             </div>
-
-
-
           </div>
-
-
-
         </div>
-
-
       </div>
     </div>
   );

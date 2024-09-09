@@ -10,7 +10,11 @@ import {
   IoBagCheck,
   IoCreateSharp,
   IoBusinessSharp,
-  IoLibraryOutline 
+  IoLibraryOutline, 
+  IoBicycle,
+  IoClipboard,
+  IoCreate,
+  IoBusinessOutline
 
 } from "react-icons/io5";
 import { IconType } from "react-icons";
@@ -28,7 +32,12 @@ const iconMapping:{[key:string]:IconType} = {
   productos:IoBagCheck,
   tallajes:IoCreateSharp,
   entidades:IoBusinessSharp,
-  reportes:IoLibraryOutline 
+  reportes:IoLibraryOutline,
+
+  "guia-uso":IoBicycle,
+  "solicitud-dotacion":IoCreate,
+  "control-ordenes":IoClipboard,
+  "info-entidad":IoBusinessOutline,
   // Add other mappings here
 };
 

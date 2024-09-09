@@ -18,14 +18,14 @@ const defaultUsuario: IUsuarioEntidadResumen = {
     nombre: '',
     activo: 1,
     sexo: 'M',
-    cedula: ''
+    cedula: '',
+    cod_cargo_entidad: 0
 }
 
 
 export const FormCordinadorEntidad = ({ codEntidad }: Props) => {
 
     const [openLoadingSpinner, setLoadingSpinner] = useState<boolean>(false)
-
     const { register, handleSubmit, reset, control, formState: { isValid }, watch } = useForm<IUsuarioEntidadResumen>({
         defaultValues: defaultUsuario
     });
@@ -42,8 +42,6 @@ export const FormCordinadorEntidad = ({ codEntidad }: Props) => {
             reset(response.usuario)
         }
     }
-
-
 
 
     const onSubmit: SubmitHandler<IUsuarioEntidadResumen> = async (data) => {
@@ -86,7 +84,7 @@ export const FormCordinadorEntidad = ({ codEntidad }: Props) => {
 
     const updateUsuarioEntidad = async (data: Partial<IUsuarioEntidadResumen>) => {
         try {
-            
+
             setLoadingSpinner(true)
             let res = await actualizarUsuarioEntidad(watch('cod_usuario'), data)
             setLoadingSpinner(false)
@@ -230,6 +228,7 @@ export const FormCordinadorEntidad = ({ codEntidad }: Props) => {
                             </>
                         )}
                     />
+
                     <Button type='submit' disabled={!isValid}>
                         Guardar usuario
                     </Button>

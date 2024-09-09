@@ -9,19 +9,11 @@ interface RouteGuardProps {
 const RouteGuard: React.FC<RouteGuardProps> = ({ element }) => {
   const location = useLocation();
   const sidebarMenu = useUserStore((state) => state.sidebarMenu); // Fetch valid routes from the store
-  const validRoutes = sidebarMenu.map((route)=>route.route)
-
-  console.log('VALID ROUTES00')
-  console.log(validRoutes)
-  
+  const validRoutes = sidebarMenu.map((route)=>route.route)  
   let currentPath = location.pathname;
   currentPath = currentPath.split('/')[1]
- 
-  console.log(currentPath)
-  // Check if the current path is in the valid routes
   const isValidRoute = validRoutes.includes(currentPath);
   if (!isValidRoute) {
-    // Redirect to a 404 or access denied page if the route is not valid
     return <Navigate to="/404" />;
   }
 

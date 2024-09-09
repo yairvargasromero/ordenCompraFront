@@ -1,14 +1,11 @@
-import { Button, Checkbox, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import React, { useEffect, useState } from 'react'
+import { Button, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { obtenerCategoriasActivas } from '../../../../actions/categorias/categorias';
-import { ICategoriaActiva } from '../../../../interfaces/categoria.interface';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import LoadingSpinnerScreen from '../../../../components/loadingSpinnerScreen/LoadingSpinnerScreen';
 import { IInformacionBasicaEntidad } from '../../../../interfaces/entidad.interface';
-import { BotonProductoCategoria } from './BotonProductoCategoria';
 import { crearEntidad, editarEntidad, obtenerInfoBasicaEntidad } from '../../../../actions/entidad/entidad';
 
 interface Props {
@@ -18,7 +15,6 @@ interface Props {
 
 const defaulValueProducto: IInformacionBasicaEntidad = {
     nombre: '',
-    cod_categorias: [],
     activo: 0,
     nit: '',
     info_contrato: ''
@@ -30,14 +26,10 @@ export const InformacionBasicaEntidad = ({ codEntidad }: Props) => {
 
     const [openLoadingSpinner, setLoadingSpinner] = useState<boolean>(false)
     const [isFocused, setIsFocused] = useState(false);
-    const [categorias, setCategorias] = useState<ICategoriaActiva[]>([]);
-
-    const [categoriasSave, setCategoriasSave] = useState<{ cod_categoria: number, cantidad: number }[]>([]);
-
+    
     const navigate = useNavigate();
 
     useEffect(() => {
-        obtenerTodasCategorias()
         if (codEntidad && +codEntidad !== 0) {
             obtenerInfoEntidad(codEntidad)
         } else {
@@ -45,13 +37,7 @@ export const InformacionBasicaEntidad = ({ codEntidad }: Props) => {
         }
     }, [codEntidad])
 
-    const obtenerTodasCategorias = async () => {
-        let response = await obtenerCategoriasActivas()
-        if (response?.error === 0) {
-            setCategorias(response.categorias)
-            sincronizarCategorias()
-        }
-    }
+   
 
     const obtenerInfoEntidad = async (codEntidad: string) => {
         let response = await obtenerInfoBasicaEntidad(codEntidad)
@@ -62,9 +48,7 @@ export const InformacionBasicaEntidad = ({ codEntidad }: Props) => {
 
             let entidadAux: IInformacionBasicaEntidad = {
                 ...response.entidad,
-                cod_categorias: response.entidad.cod_categorias.map((cat: any) => cat.cod_categoria)
             }
-            setCategoriasSave(response.entidad.cod_categorias)
             reset(entidadAux)
         }
     }
@@ -75,7 +59,6 @@ export const InformacionBasicaEntidad = ({ codEntidad }: Props) => {
 
     const onSubmit: SubmitHandler<IInformacionBasicaEntidad> = async (data) => {
         let dataAux: any = data
-        dataAux.cod_categorias = categoriasSave
         if (!codEntidad || +codEntidad === 0) {
 
             setLoadingSpinner(true)
@@ -101,56 +84,6 @@ export const InformacionBasicaEntidad = ({ codEntidad }: Props) => {
 
 
     }
-
-    // Obtener el valor actual de cod_categorias
-    const codCategorias = watch('cod_categorias');
-
-    const nombreCategoria = (codCategoria: number) => {
-        return categorias.filter((categoria) => categoria.cod_categoria === codCategoria)[0].nombre
-    }
-
-    const cantidadCategoria = (codCategoria: number) => {
-        return categoriasSave.filter((categoria) => categoria.cod_categoria === codCategoria)[0].cantidad
-    }
-
-    const handleCantidadCategoria = (cod_categoria: number, cantidad: number) => {
-        let categoriaFilter = categoriasSave.findIndex((categoria) => categoria.cod_categoria === cod_categoria);
-
-        if (categoriaFilter === -1) {
-            setCategoriasSave([...categoriasSave, { cod_categoria, cantidad }]);
-        } else {
-
-            const nuevasCategorias = [...categoriasSave];
-            nuevasCategorias[categoriaFilter] = { cod_categoria, cantidad };
-            setCategoriasSave(nuevasCategorias);
-        }
-
-    }
-
-    const sincronizarCategorias = () => {
-
-        // Filtrar categorías existentes que no están en codCategorias
-        const categoriasFiltradas = categoriasSave.filter((categoria) =>
-            watch('cod_categorias').map((cat) => cat.toString()).includes(categoria.cod_categoria.toString())
-        );
-
-        watch('cod_categorias').forEach((codCategoria) => {
-            const existe = categoriasFiltradas.some(
-                (categoria) => categoria.cod_categoria === +codCategoria
-            );
-
-            if (!existe) {
-                categoriasFiltradas.push({
-                    cod_categoria: +codCategoria,
-                    cantidad: 0,
-                });
-            }
-        });
-
-        // Actualizar el estado con las categorías sincronizadas
-        setCategoriasSave(categoriasFiltradas);
-    };
-
 
 
     return (
@@ -219,36 +152,7 @@ export const InformacionBasicaEntidad = ({ codEntidad }: Props) => {
                         )}
                     />
 
-                    <Controller
-                        name="cod_categorias"
-                        control={control}
-                        rules={{ required: 'Categorias es obligatorio' }}
-                        render={({ field }) => (
-                            <>
-                                <InputLabel id="Categoria" className='mt-4'>Categorias</InputLabel>
-                                <Select
-                                    {...field}
-                                    label="Categoria"
-                                    labelId="Categoria"
-                                    multiple
-                                    onChange={(event) => {
-                                        field.onChange(event);
-                                        sincronizarCategorias()
-                                    }}
-                                    value={field.value}
-                                >
-                                    {categorias.map((categoria) => (
-                                        <MenuItem key={categoria.cod_categoria} value={categoria.cod_categoria}>
-                                            <Checkbox checked={field.value.map(value => value.toString()).indexOf(categoria.cod_categoria.toString()) > -1} />
-                                            {categoria.nombre}
-                                        </MenuItem>
-                                    ))
-                                    }
-                                </Select>
-                            </>
-                        )}
-                    />
-
+                   
                     <Controller
                         name="activo"
                         control={control}
@@ -266,23 +170,6 @@ export const InformacionBasicaEntidad = ({ codEntidad }: Props) => {
                             </>
                         )}
                     />
-
-
-                    {/* Mapear los valores seleccionados */}
-                    <div className="my-7 flex row justify-start">
-                        {codCategorias.map((cod) => (
-
-                            <BotonProductoCategoria
-                                key={cod}
-                                codCategoria={+cod}
-                                cantidadDefecto={cantidadCategoria(+cod)}
-                                categoria={nombreCategoria(+cod)}
-                                handleCantidadCategoria={handleCantidadCategoria}
-                            />
-                        ))}
-
-                    </div>
-
 
                     <Button disabled={!isValid} type='submit'>
                         {(!codEntidad || +codEntidad === 0) ? 'Crear Entidad' : 'Editar Entidad'}

@@ -10,7 +10,8 @@ import { DialogEditarUsuarioEntidad } from './DialogEditarUsuarioEntidad';
 
 interface Props {
     codEntidad: string,
-    refreshUsuarios: boolean
+    refreshUsuarios: boolean,
+    sendTotalUsuarios:(total:number)=>void
 }
 
 const defaultUsuario: IUsuarioEntidadResumen = {
@@ -19,10 +20,11 @@ const defaultUsuario: IUsuarioEntidadResumen = {
     nombre: '',
     activo: 1,
     sexo: 'M',
-    cedula: ''
+    cedula: '',
+    cod_cargo_entidad:0
 }
 
-export const DataTableUsuarios = ({ codEntidad, refreshUsuarios }: Props) => {
+export const DataTableUsuarios = ({ codEntidad, refreshUsuarios ,sendTotalUsuarios}: Props) => {
 
 
     const [openLoadingSpinner, setLoadingSpinner] = useState<boolean>(false);
@@ -42,6 +44,10 @@ export const DataTableUsuarios = ({ codEntidad, refreshUsuarios }: Props) => {
         {
             name: 'Email',
             selector: (row: IUsuarioEntidadResumen) => row.email,
+        },
+        {
+            name: 'Cargo',
+            selector: (row: IUsuarioEntidadResumen) => row.cargo_entidad || '',
         },
         {
             name: 'Sexo',
@@ -68,12 +74,14 @@ export const DataTableUsuarios = ({ codEntidad, refreshUsuarios }: Props) => {
         {
             name: 'Actions',
             cell: (row: IUsuarioEntidadResumen) => (
-                <button
+                <Button
+                    disabled={!!row.cod_orden}
                     onClick={() => handleActionUsuario(row)}
-                    className="bg-blue-500 text-white px-2 py-1 rounded"
+                    variant='outlined'
+                    size="small"
                 >
                     Editar
-                </button>
+                </Button>
             ),
         },
     ];
@@ -89,6 +97,7 @@ export const DataTableUsuarios = ({ codEntidad, refreshUsuarios }: Props) => {
         setLoadingSpinner(false)
         if (response?.error == 0) {
             setUsuarios(response.usuarios)
+            sendTotalUsuarios(response.usuarios.length)
         }
     }
 

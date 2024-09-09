@@ -2,7 +2,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { CartProducto } from "../../interfaces/cart.interface";
-import { ICategoriaUsuario } from "../../interfaces/orden_compra.interface";
+import { ICategoriaUsuario, IUsuarioValidacion } from "../../interfaces/orden_compra.interface";
 
 interface ICategoriaEscogida {
   [key: string]: {
@@ -16,17 +16,18 @@ interface State {
   cart: CartProducto[];
   categorias: ICategoriaUsuario[],
   categoriasSeleccionada: ICategoriaEscogida,
+  usuarioOrden:IUsuarioValidacion | null,
   getTotalItems: () => number;
   getSummaryInformation: () => {
     itemsInCart: number;
   };
-
   addProductTocart: (product: CartProducto) => void;
   updateProductQuantity: (product: CartProducto, quantity: number) => void;
   removeProduct: (product: CartProducto) => void;
   clearCart: () => void;
   setCategorias: (categorias: ICategoriaUsuario[]) => void;
-  setCantidadSeleccionadaCategoria: (codCategoria: number, cantidad: number) => void
+  setCantidadSeleccionadaCategoria: (codCategoria: number, cantidad: number) => void;
+  setInfoUsuarioOrden:(usuario:IUsuarioValidacion)=>void
 }
 
 export const useCartStore = create<State>()(
@@ -35,6 +36,7 @@ export const useCartStore = create<State>()(
       cart: [],
       categorias: [],
       categoriasSeleccionada: {},
+      usuarioOrden:null,
       // Methods
       getTotalItems: () => {
         const { cart } = get();
@@ -54,6 +56,11 @@ export const useCartStore = create<State>()(
           itemsInCart,
         };
 
+      },
+
+
+      setInfoUsuarioOrden: (usuario:IUsuarioValidacion) => {
+        set({ usuarioOrden:usuario });
       },
 
       addProductTocart: (product: CartProducto) => {
@@ -207,38 +214,7 @@ export const useCartStore = create<State>()(
 
         // Actualiza el estado de `cart` y `categoriasSeleccionada`
         set({ cart: updatedCartProductos, categoriasSeleccionada: updatedCategoriasSeleccionada });
-        // const { cart,categoriasSeleccionada } = get();
-        // let newCategoriaSeleccionada = {...categoriasSeleccionada}
-        // const updatedCartProductos = cart.filter((item) => {
-        //   // Check if the product matches any of the conditions
-        //   if (item.cod_producto === product.cod_producto) {
-
-        //     if (product.tiene_talla && product.tiene_color) {
-        //       // If the product has both size and color, check both
-        //       if(newCategoriaSeleccionada[product.cod_categoria]){
-        //         newCategoriaSeleccionada[product.cod_categoria].cantidadSeleccionada  -= item.cantidad
-        //       }
-        //       return !(item.talla === product.talla && item.cod_color_producto === product.cod_color_producto);
-        //     } else if (product.tiene_talla) {
-        //       // If the product has only size, check size
-        //       if(newCategoriaSeleccionada[product.cod_categoria]){
-        //         newCategoriaSeleccionada[product.cod_categoria].cantidadSeleccionada  -= item.cantidad
-        //       }
-        //       return item.talla !== product.talla;
-        //     } else if (product.tiene_color) {
-        //       // If the product has only color, check color
-        //       if(newCategoriaSeleccionada[product.cod_categoria]){
-        //         newCategoriaSeleccionada[product.cod_categoria].cantidadSeleccionada  -= item.cantidad
-        //       }
-        //       return item.cod_color_producto !== product.cod_color_producto;
-        //     }
-        //   }
-
-        //   // If no conditions match, keep the item
-        //   return true;
-        // });
-
-        // set({ cart: updatedCartProductos ,categoriasSeleccionada:newCategoriaSeleccionada });
+       
       },
       clearCart: () => {
         set({ cart: [], categoriasSeleccionada: {} })

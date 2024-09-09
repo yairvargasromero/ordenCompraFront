@@ -1,4 +1,5 @@
 import EditarProducto from "../pages/private/editar-producto/EditarProducto";
+import { obtenerUsuariosCoordinador } from "./entidad/entidad";
 
 const apiUrl = process.env.REACT_APP_BACKEND_URL;
 
@@ -44,11 +45,23 @@ export const actionsSettings  = {
         crearUsuarioEntidad:`${apiUrl}/entidad/crear_usuario_entidad`,
         actualizarUsuarioEntidad:`${apiUrl}/entidad/editar_usuario_entidad`,
         obtenerUsuarioCoordinador:`${apiUrl}/entidad/usuario_coordinador`,
+        cargosEntidad:`${apiUrl}/entidad/cargos`,
+        detalleCargoEntidad :`${apiUrl}/entidad/detalle_cargo`,
+        infoContrato :`${apiUrl}/entidad/info_contrato`,
+        
+        
+        crearCargo:`${apiUrl}/entidad/crear_cargo`,
+        editarCargo:`${apiUrl}/entidad/editar_cargo`,
 
+    
+        validarOrdenUsuario:`${apiUrl}/orden_compra/validar_orden`,
         productosUsuario:`${apiUrl}/orden_compra/productos`,
         obtenerProductoDetalleCarro:`${apiUrl}/orden_compra/producto_detalle`,
-        
-        
+        crearOrden:`${apiUrl}/orden_compra/crear`,
+        obtenerUsuariosCoordinador:`${apiUrl}/orden_compra/usuarios_coordinador_entidad`,
+        actualizarOrden:`${apiUrl}/orden_compra/actualizar`,
+
+        obtenerSolicitudesPendientes:`${apiUrl}/solicitud_dotacion/ordenes_pendientes`,
         
         login:`${apiUrl}/users/authentication`,
     }

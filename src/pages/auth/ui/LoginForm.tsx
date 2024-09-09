@@ -35,16 +35,14 @@ export const LoginForm = () => {
 
             let rutaRedirect = '/ordenes-compra'
             if (result.user.cod_perfil === 1) {
-                rutaRedirect = '/productos'
+                rutaRedirect = '/entidades'
             } else if (result.user.cod_perfil === 2) {
-                rutaRedirect = '/reportes'
+                rutaRedirect = '/solicitud-dotacion'
             }
             window.location.replace(rutaRedirect);
         } else {
             setWronCredentials(false)
         }
-
-        // window.location.replace('/ordenes-compra');
     }
 
 

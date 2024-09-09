@@ -3,7 +3,7 @@ import LoadingSpinnerScreen from '../../../../components/loadingSpinnerScreen/Lo
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { IUsuarioEntidadResumen } from '../../../../interfaces/entidad.interface';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import { actualizarUsuarioEntidad, crearUsuarioEntidad } from '../../../../actions/entidad/entidad';
+import { actualizarUsuarioEntidad, cargosPorEntidad, crearUsuarioEntidad } from '../../../../actions/entidad/entidad';
 import Swal from 'sweetalert2';
 
 
@@ -17,18 +17,35 @@ interface Props {
 export const DialogEditarUsuarioEntidad = ({ codEntidad, openDialog, usuario, onClose }: Props) => {
 
     const [openLoadingSpinner, setLoadingSpinner] = useState<boolean>(false)
+    const [cargos, setCargos] = useState<{ cod_cargo_entidad: number, nombre: string }[]>([])
 
-    const { register, handleSubmit, reset, control, formState: { isValid }, watch } = useForm<IUsuarioEntidadResumen>({
+    const {handleSubmit, reset, control, formState: { isValid } } = useForm<IUsuarioEntidadResumen>({
         defaultValues: usuario
     });
 
     useEffect(() => {
-        if (usuario.cod_usuario != 0) {
-            reset(usuario)
-        }
+        reset(usuario)
+        getCargos()
     }, [usuario])
 
+    const getCargos = async () => {
+        try {
+            setLoadingSpinner(true)
+            let response = await cargosPorEntidad(+codEntidad)
+            setLoadingSpinner(false)
+            if (response?.error == 0) {
+                setCargos(response.cargos)
+            } else if (response?.error == 1) {
+                Swal.fire(response.msg)
+            }
+        } catch (e) {
+            Swal.fire({
+                icon: 'error',
+                text: 'Error al consultar los cargos'
+            })
+        }
 
+    }
 
     const onSubmit: SubmitHandler<IUsuarioEntidadResumen> = async (data) => {
 
@@ -225,6 +242,23 @@ export const DialogEditarUsuarioEntidad = ({ codEntidad, openDialog, usuario, on
                                     </>
                                 )}
                             />
+
+<Controller
+                        name="cod_cargo_entidad"
+                        control={control}
+                        render={({ field }) => (
+                            <>
+                                <InputLabel id="cargo" className='mt-4'>Cargo</InputLabel>
+                                <Select
+                                    labelId="cargo"
+                                    {...field}
+                                    label="cargo"
+                                >
+                                    { cargos.map((cargo)=>(<MenuItem value={cargo.cod_cargo_entidad}>{cargo.nombre}</MenuItem>))}
+                                </Select>
+                            </>
+                        )}
+                    />
 
                         </div>
 

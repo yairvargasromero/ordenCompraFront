@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { handleHttpError } from "../axios-helper/axiosError";
 import { getAuthToken } from "../axios-helper/getToken";
 import { actionsSettings } from "../settings";
-import { IInformacionBasicaEntidad, IInformacionBasicaEntidadGuardar, IResponseCreacionEntidad, IResponseEntidadResumen, IResponseInformacionBasicaEntidad, IResponseUsuarioCoordinador, IResponseUsuariosEntidadResumen, IUsuarioEntidadResumen } from "../../interfaces/entidad.interface";
+import { IInformacionBasicaCargoGuardar, IInformacionBasicaEntidad, IInformacionBasicaEntidadGuardar, IResponseCreacionCargoEntidad, IResponseCreacionEntidad, IResponseDetalleCargoEntidad, IResponseEntidadResumen, IResponseInfoContrato, IResponseInformacionBasicaEntidad, IResponseResumenCargosEntidad, IResponseUsuarioCoordinador, IResponseUsuariosEntidadResumen, IUsuarioEntidadResumen } from "../../interfaces/entidad.interface";
 import { IRespuestaGeneralAction } from "../../interfaces/general.interface";
 import { IUser } from "../../interfaces/user.interfaces";
 
@@ -210,3 +210,122 @@ export const obtenerUsuariosCoordinador = async (codEntidad:number) => {
     return null
   }
 }
+
+export const detalleCargoEntidad = async (codCargoEntidad: number) => {
+  try {
+
+    let options = {
+      method: 'get',
+      url: `${actionsSettings.backendRoutes.detalleCargoEntidad}/${codCargoEntidad}`,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': getAuthToken()
+      },
+      maxRedirects: 21,
+
+    }
+    const { data }: AxiosResponse<IResponseDetalleCargoEntidad> = await axios(options);
+    return data
+  } catch (e) {
+    handleHttpError(e);
+    console.log('************')
+    console.log(e)
+    return null
+  }
+}
+
+
+export const cargosPorEntidad = async (codEntidad: number) => {
+  try {
+
+    let options = {
+      method: 'get',
+      url: `${actionsSettings.backendRoutes.cargosEntidad}/${codEntidad}`,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': getAuthToken()
+      },
+      maxRedirects: 21,
+
+    }
+    const { data }: AxiosResponse<IResponseResumenCargosEntidad> = await axios(options);
+    return data
+  } catch (e) {
+    handleHttpError(e);
+    console.log('************')
+    console.log(e)
+    return null
+  }
+}
+
+export const crearCargoEntidad= async (entidad: IInformacionBasicaCargoGuardar) => {
+  try {
+
+    let options = {
+      method: 'post',
+      url: `${actionsSettings.backendRoutes.crearCargo}`,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': getAuthToken()
+      },
+      maxRedirects: 21,
+      data: entidad
+
+    }
+    const { data }: AxiosResponse<IResponseCreacionCargoEntidad> = await axios(options);
+    return data
+  } catch (e) {
+    handleHttpError(e);
+    console.log('************')
+    console.log(e)
+    return null
+  }
+}
+
+export const editarCargoEntidad = async (entidad: IInformacionBasicaCargoGuardar, codCargoEntidad: number) => {
+  try {
+
+    let options = {
+      method: 'put',
+      url: `${actionsSettings.backendRoutes.editarCargo}/${codCargoEntidad}`,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': getAuthToken()
+      },
+      maxRedirects: 21,
+      data: entidad
+
+    }
+    const { data }: AxiosResponse<IRespuestaGeneralAction> = await axios(options);
+    return data
+  } catch (e) {
+    handleHttpError(e);
+    console.log('************')
+    console.log(e)
+    return null
+  }
+}
+
+
+export const obtenerInfoContrato = async () => {
+  try {
+
+    let options = {
+      method: 'get',
+      url: `${actionsSettings.backendRoutes.infoContrato}`,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': getAuthToken()
+      },
+      maxRedirects: 21,
+    }
+    const { data }: AxiosResponse<IResponseInfoContrato> = await axios(options);
+    return data
+  } catch (e) {
+    handleHttpError(e);
+    console.log('************')
+    console.log(e)
+    return null
+  }
+}
+
