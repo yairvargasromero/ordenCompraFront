@@ -17,7 +17,7 @@ RUN apk add --no-cache
 COPY package.json .
 RUN npm install
 
-COPY --from=build /usr/src/app/dist/. /usr/src/app/dist/
+COPY --from=build /usr/src/app/build/. /usr/src/app/build/
 
 EXPOSE 3000
 
