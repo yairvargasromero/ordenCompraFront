@@ -18,8 +18,6 @@ COPY package.json .
 RUN npm install
 
 COPY --from=build /usr/src/app/dist/. /usr/src/app/dist/
-RUN mkdir -p /usr/src/app/dist/uploads && \
-    chown -R node:node /usr/src/app/dist/uploads
 
 EXPOSE 3000
 
