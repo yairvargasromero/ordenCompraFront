@@ -48,8 +48,6 @@ export const actionsSettings  = {
         cargosEntidad:`${apiUrl}/entidad/cargos`,
         detalleCargoEntidad :`${apiUrl}/entidad/detalle_cargo`,
         infoContrato :`${apiUrl}/entidad/info_contrato`,
-        
-        
         crearCargo:`${apiUrl}/entidad/crear_cargo`,
         editarCargo:`${apiUrl}/entidad/editar_cargo`,
 
@@ -62,7 +60,8 @@ export const actionsSettings  = {
         actualizarOrden:`${apiUrl}/orden_compra/actualizar`,
 
         obtenerSolicitudesPendientes:`${apiUrl}/solicitud_dotacion/ordenes_pendientes`,
-        
+        reporteGeneralEntidad:`${apiUrl}/reporte/reporte_general_entidad`,
+
         login:`${apiUrl}/users/authentication`,
     }
 }

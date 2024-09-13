@@ -1,13 +1,14 @@
 
 import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
+import { IoMdDownload } from "react-icons/io";
 import DataTable from 'react-data-table-component';
 import { useNavigate } from 'react-router-dom';
-import { obtenerProductos } from '../../../actions/producto/producto';
 import { Title } from '../../../components/title/Title';
 import { IEntidadResumen } from '../../../interfaces/entidad.interface';
 import { obtenerEntidades } from '../../../actions/entidad/entidad';
 import { useFilteredData } from '../../../hooks/useFilteredData';
+import { reporteGeneralEntidad } from '../../../actions/reporte/reporte';
 
 
 
@@ -32,12 +33,23 @@ export const EntidadesPage = () => {
     {
       name: 'Actions',
       cell: (row: IEntidadResumen) => (
-        <button
-          onClick={() => handleClickOpen(row.cod_entidad)}
-          className="bg-blue-500 text-white px-2 py-1 rounded"
-        >
-          Editar
-        </button>
+        <>
+          <button
+            onClick={() => handleClickOpen(row.cod_entidad)}
+            className="bg-blue-500 text-white px-2 py-1 rounded mx-3"
+          >
+            Editar
+          </button>
+
+          <button
+            className="bg-green-500 text-white px-2 py-1 rounded mx-3"
+            onClick={() => handleDescargarReporte(row.cod_entidad)}
+          >
+           
+           Descargar Reporte
+           
+          </button>
+        </>
       ),
     },
   ];
@@ -48,7 +60,6 @@ export const EntidadesPage = () => {
 
   const obtenerTodosProductos = async () => {
     let response = await obtenerEntidades()
-    console.log(response)
     if (response?.error == 0) {
       setEntidades(response.entidades)
     }
@@ -57,6 +68,10 @@ export const EntidadesPage = () => {
   const handleClickOpen = (codEntidad: number = 0) => {
     navigate(`admin-entidad/${codEntidad}`)
   };
+
+  const handleDescargarReporte = async (codEntidad: number) => {
+    await reporteGeneralEntidad(codEntidad)
+  }
 
 
   return (

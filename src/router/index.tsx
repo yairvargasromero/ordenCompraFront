@@ -12,7 +12,6 @@ import { EntidadesPage } from '../pages/private/entidades/EntidadesPage';
 import { OrdenesCompraPage } from '../pages/private/ordenes-compra/OrdenesCompraPage';
 import { ProductBySlugPage } from '../pages/private/producto/ProductBySlugPage';
 import { ProductosPage } from '../pages/private/productos/ProductosPage';
-import { ReportesPage } from '../pages/private/reportes/page';
 import { TallajesPage } from '../pages/private/tallajes/TallajesPage';
 import RouteGuard from './RouteGuard';
 import { ResumenOrden } from '../pages/private/resumen-orden/ResumenOrden';
@@ -40,7 +39,6 @@ const AppRouter: React.FC = () => {
           <Route path="empty" element={<RouteGuard element={<EmptyPage />} />} />
           <Route path="cart" element={<RouteGuard element={<CartPage />} />} />
           <Route path="producto/:codProducto" element={<RouteGuard element={<ProductBySlugPage />} />} />
-          <Route path="reportes" element={<RouteGuard element={<ReportesPage />} />} />
           <Route path="resumen_orden/:codUsuario" element={<RouteGuard element={<ResumenOrden />} />} />
           
           <Route path="guia-uso" element={<RouteGuard element={<GuiaUso />} />} />

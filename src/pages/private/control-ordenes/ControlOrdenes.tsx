@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useFilteredData } from '../../../hooks/useFilteredData';
 import { useNavigate } from 'react-router-dom';
-import { IOrdenPendiente } from '../../../interfaces/solicitud_dotacion.interface';
+import { IoMdDownload } from "react-icons/io";
 import DataTable from 'react-data-table-component';
 import LoadingSpinnerScreen from '../../../components/loadingSpinnerScreen/LoadingSpinnerScreen';
 import { Title } from '../../../components/title/Title';
@@ -10,6 +10,8 @@ import { Button } from '@mui/material';
 import { obtenerUsuariosCoordinadorGestionar } from '../../../actions/orden_compra/orden_compra';
 import clsx from 'clsx';
 import { useCartStore } from '../../../store/cart/cart-store';
+import { useUserStore } from '../../../store/user/user';
+import { reporteGeneralEntidad } from '../../../actions/reporte/reporte';
 
 export const ControlOrdenes = () => {
  
@@ -18,6 +20,7 @@ export const ControlOrdenes = () => {
   const [usuarios, setUsuarios] = useState<IUsuarioGestionar[]>([]);
   const { search, setSearch, filteredData } = useFilteredData(usuarios);
   const clearCart = useCartStore((state)=>state.clearCart)
+  const session = useUserStore((state)=>state.user)
 
   const columns = [
     {
@@ -100,6 +103,10 @@ export const ControlOrdenes = () => {
       }
   }
 
+  const handleDescargarReporte = async () => {
+    await reporteGeneralEntidad(session?.cod_entidad || 0)
+  }
+
 
   return (
       <>
@@ -108,10 +115,11 @@ export const ControlOrdenes = () => {
               <input
                   type="text"
                   placeholder="Buscar..."
-                  className="border rounded p-2"
+                  className="border rounded p-2 mx-6"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
               />
+              <Button variant='contained' startIcon={<IoMdDownload />} onClick={handleDescargarReporte}>Descargar Reporte</Button>
           </div>
           <DataTable
               columns={columns}

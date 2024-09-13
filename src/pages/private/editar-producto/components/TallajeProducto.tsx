@@ -103,7 +103,9 @@ export const TallajeProducto = ({ codProducto }: Props) => {
     }
 
     const getImagenTallaje = () => {
-        return tallajes.filter((tallaje) => tallajeSeleccionado === tallaje.cod_tallaje)[0].imagen || ''
+        let imagenFilter = tallajes.filter((tallaje) => tallajeSeleccionado === tallaje.cod_tallaje)
+
+        return (imagenFilter.length > 0) ? imagenFilter[0].imagen : ''
     }
 
     return (
@@ -134,7 +136,7 @@ export const TallajeProducto = ({ codProducto }: Props) => {
                                                 variant="outlined"
                                                 value={input}
                                                 onChange={(e) => handleTallaChange(index, e.target.value)}
-                                                inputProps={{ maxLength: 2 }} // Limit to 2 characters
+                                                inputProps={{ maxLength: 4 }}
                                                 style={{ marginRight: '8px', width: '80px' }}
                                             />
                                             <IconButton
