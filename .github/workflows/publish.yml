@@ -45,21 +45,21 @@ jobs:
         id: deploy-env
         run: |
           if [ "${{ github.ref_name }}" == "production" ]; then
-            echo "ENV_PATH=/services/prod/ordenes_compra/frontend/" >> $GITHUB_ENV
-            echo "CONTAINER_NAME=frontend_ordenes_prod" >> $GITHUB_ENV
+            echo "ENV_PATH_FRONT=/services/prod/ordenes_compra/frontend/" >> $GITHUB_ENV
+            echo "CONTAINER_NAME_FRONT=frontend_ordenes_prod" >> $GITHUB_ENV
             echo "TAG=prod" >> $GITHUB_ENV
           elif [ "${{ github.ref_name }}" == "development" ]; then
-            echo "ENV_PATH=/services/test/ordenes_compra/frontend/" >> $GITHUB_ENV
-            echo "CONTAINER_NAME=frontend_ordenes_test" >> $GITHUB_ENV
+            echo "ENV_PATH_FRONT=/services/test/ordenes_compra/frontend/" >> $GITHUB_ENV
+            echo "CONTAINER_NAME_FRONT=frontend_ordenes_test" >> $GITHUB_ENV
             echo "TAG=test" >> $GITHUB_ENV
           fi
 
       - name: SSH into server and deploy
         run: |
           sshpass -p ${{ secrets.AUTH_PASS }} ssh -o StrictHostKeyChecking=no ${{ secrets.AUTH_SERVER }} << EOF
-            cd ${{ env.ENV_PATH }}
+            cd ${{ env.ENV_PATH_FRONT }}
             docker login ghcr.io -u cris590 -p ${{ secrets.TOKEN_GITHUB }}
             docker pull ghcr.io/cris590/ordencompra-front-v2:${{ env.TAG }}
-            docker stop ${{ env.CONTAINER_NAME }} && docker rm ${{ env.CONTAINER_NAME }}
+            docker stop ${{ env.CONTAINER_NAME_FRONT }} && docker rm ${{ env.CONTAINER_NAME_FRONT }}
             docker compose up -d
           EOF
