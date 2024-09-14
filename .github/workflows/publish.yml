@@ -1,19 +1,10 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-# GitHub recommends pinning actions to a commit SHA.
-# To get a newer version, you will need to update the SHA.
-# You can also reference a tag or branch, but the action may change without warning.
-
 name: Publish Docker image
 
 on:
   push: 
-    branches: ["main", "development"]
+    branches: ["production", "development"]
   pull_request:
-    branches: ["main", "development"]
+    branches: ["production", "development"]
 
 jobs:
   create-docker-image:
@@ -29,32 +20,46 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.TOKEN_GITHUB }}
 
+      - name: Determine Docker Tag
+        id: docker-tag
+        run: |
+          if [ "${{ github.ref_name }}" == "production" ]; then
+            echo "TAG=prod" >> $GITHUB_ENV
+          elif [ "${{ github.ref_name }}" == "development" ]; then
+            echo "TAG=test" >> $GITHUB_ENV
+          fi
+
       - name: Build and push Docker image
-        run: | 
-          docker build . --tag ghcr.io/cris590/ordencompra-front-v2:latest
-          docker push ghcr.io/cris590/ordencompra-front-v2:latest
+        run: |
+          docker build . --tag ghcr.io/cris590/ordencompra-front-v2:${{ env.TAG }}
+          docker push ghcr.io/cris590/ordencompra-front-v2:${{ env.TAG }}
 
-  # deploy:
-  #   needs: create-docker-image
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Install sspass
-  #       run: sudo apt-get install -y sshpass
-  #     - name: SSH into server
-  #       run: |
-  #         sshpass -p ${{secrets.AUTH_PASS}} ssh -o StrictHostKeyChecking=no ${{secrets.AUTH_SERVER}} << EOF
-  #         cd /root/ordenes_compra/frontend/
-  #         docker login ghcr.io -u cris590 -p ${{secrets.TOKEN_GITHUB}}
-  #         docker pull ghcr.io/cris590/ordencompra-front-v2:latest
-  #         docker stop ordencompra-front && docker rm ordencompra-front
-  #         docker run -d \
-  #           --name ordencompra-front \
-  #           -p 3000:3200 \
-  #           -w /app \
-  #           --restart always
-  #           --env-file .env \
-  #           ghcr.io/cris590/ordencompra-front-v2:latest
-  #         EOF
+  deploy:
+    needs: create-docker-image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
 
-    
+      - name: Determine Deployment Environment
+        id: deploy-env
+        run: |
+          if [ "${{ github.ref_name }}" == "production" ]; then
+            echo "ENV_PATH=/services/prod/ordenes_compra/frontend/" >> $GITHUB_ENV
+            echo "CONTAINER_NAME=frontend_ordenes_prod" >> $GITHUB_ENV
+            echo "TAG=prod" >> $GITHUB_ENV
+          elif [ "${{ github.ref_name }}" == "development" ]; then
+            echo "ENV_PATH=/services/test/ordenes_compra/frontend/" >> $GITHUB_ENV
+            echo "CONTAINER_NAME=frontend_ordenes_test" >> $GITHUB_ENV
+            echo "TAG=test" >> $GITHUB_ENV
+          fi
 
+      - name: SSH into server and deploy
+        run: |
+          sshpass -p ${{ secrets.AUTH_PASS }} ssh -o StrictHostKeyChecking=no ${{ secrets.AUTH_SERVER }} << EOF
+            cd ${{ env.ENV_PATH }}
+            docker login ghcr.io -u cris590 -p ${{ secrets.TOKEN_GITHUB }}
+            docker pull ghcr.io/cris590/ordencompra-front-v2:${{ env.TAG }}
+            docker stop ${{ env.CONTAINER_NAME }} && docker rm ${{ env.CONTAINER_NAME }}
+            docker compose up -d
+          EOF

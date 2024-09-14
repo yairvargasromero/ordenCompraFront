@@ -1,24 +1,23 @@
 # Etapa de construcción
 FROM node:20-alpine AS build
 WORKDIR /usr/src/app
-# Install app dependencies based on package-lock.json
+
+# Instalar dependencias
 COPY package*.json ./
 RUN npm install
+
+# Copiar el código fuente y construir la aplicación
 COPY . .
-RUN npm run build 
-# Bundle app source
-# Port exposed on server
+RUN npm run build
 
-# BUILD
-FROM node:20-alpine
-WORKDIR /usr/src/app/
-RUN apk add --no-cache
+# Etapa de despliegue usando Nginx
+FROM nginx:1.17.1-alpine
 
-COPY package.json .
-RUN npm install
+# Copiar la carpeta build generada en la etapa de construcción
+COPY --from=build /usr/src/app/build/ /usr/share/nginx/html
 
-COPY --from=build /usr/src/app/build/. /usr/src/app/build/
+# Copiar la configuración personalizada de Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Exponer el puerto 3000, según tu configuración de Nginx
 EXPOSE 3000
-
-CMD ["npm","start"]
