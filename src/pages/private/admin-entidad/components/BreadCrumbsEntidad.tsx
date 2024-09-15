@@ -1,11 +1,11 @@
 import { Breadcrumbs, Typography } from '@mui/material'
 import React from 'react'
-import Link from '@mui/material/Link';
+import { Link } from 'react-router-dom'
 
 export const BreadCrumbsEntidad = () => {
   return (
     <Breadcrumbs aria-label="breadcrumb">
-        <Link underline="hover" color="inherit" href="/entidades">
+        <Link color="inherit" to="/entidades">
           Entidades
         </Link>
         

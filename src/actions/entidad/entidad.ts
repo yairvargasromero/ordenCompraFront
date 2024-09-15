@@ -53,7 +53,7 @@ export const obtenerEntidades = async () => {
     }
   }
 
-  export const editarEntidad = async (entidad: IInformacionBasicaEntidadGuardar, codEntidad: number) => {
+  export const editarEntidad = async (entidad: Partial<IInformacionBasicaEntidadGuardar>, codEntidad: number) => {
     try {
   
       let options = {

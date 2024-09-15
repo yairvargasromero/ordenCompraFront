@@ -22,7 +22,6 @@ import { GuiaUso } from '../pages/private/guia-uso/GuiaUso';
 
 const AppRouter: React.FC = () => {
   const basename = process.env.REACT_APP_BASE_URL || '';
-  console.log('----> ', basename)
   return (
     <Router basename={basename}>
       <Routes>

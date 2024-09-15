@@ -1,12 +1,13 @@
 import React from 'react'
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Link from '@mui/material/Link';
+import { Link } from 'react-router-dom';
+
 
 export const BreadCrumbsProducto = () => {
   return (
     <Breadcrumbs aria-label="breadcrumb">
-        <Link underline="hover" color="inherit" href="/productos">
+        <Link color="inherit" to="/productos">
           Productos
         </Link>
         

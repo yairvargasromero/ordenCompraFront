@@ -9,6 +9,7 @@ import { IEntidadResumen } from '../../../interfaces/entidad.interface';
 import { obtenerEntidades } from '../../../actions/entidad/entidad';
 import { useFilteredData } from '../../../hooks/useFilteredData';
 import { reporteGeneralEntidad } from '../../../actions/reporte/reporte';
+import { formatDate } from '../../../utils/formatDate';
 
 
 
@@ -31,7 +32,21 @@ export const EntidadesPage = () => {
       selector: (row: IEntidadResumen) => (row.activo === 1) ? 'Activo' : 'Inactivo',
     },
     {
-      name: 'Actions',
+      name: 'Gestionada',
+      cell: (row: IEntidadResumen) => (
+        (!!row.gestionada) ? (
+          <Button variant='contained' size='small' color='success'>Solicitud completa</Button>
+        ) : (
+          <Button variant='contained' size='small' color='error'>Solicitud sin gestionar</Button>
+        )
+      ),
+    },
+    {
+      name: 'Fecha Gestion',
+      selector: (row: IEntidadResumen) =>(!!row.fecha_gestionada) ?  formatDate(row.fecha_gestionada ):'',
+    },
+    {
+      name: 'Acciones',
       cell: (row: IEntidadResumen) => (
         <>
           <button

@@ -7,6 +7,8 @@ import { useCartStore } from '../../store/cart/cart-store';
 export const handleHttpError = async (error: unknown) => {
     const logOut = useUserStore.getState().logOut;
     const clearCart = useCartStore.getState().clearCart
+
+    const context = process.env.REACT_APP_BASE_URL
     if (axios.isAxiosError(error)) {
       // Handle HTTP errors
       switch (error.response?.status) {
@@ -15,7 +17,7 @@ export const handleHttpError = async (error: unknown) => {
           logOut()
           clearCart()
           // Perform specific action for 401 Unauthorized, e.g., redirect to login
-          window.location.href = '/auth/login'; // Redirect to login page using window.location
+          window.location.href = context + '/auth/login'; // Redirect to login page using window.location
           break;
   
       }

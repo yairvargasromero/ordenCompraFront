@@ -5,7 +5,8 @@ export interface IEntidadResumen {
     nombre:string,
     activo:1|0,
     nit:string,
-    gestionada:1|0
+    gestionada:1|0,
+    fecha_gestionada?:string
 }
 
 export interface IResponseEntidadResumen {
@@ -30,7 +31,10 @@ export interface IInformacionBasicaEntidadGuardar {
     info_contrato:string,
     no_contrato:string,
     fecha_inicio:string,
-    fecha_final:string
+    fecha_final:string,
+    entrega_bonos?:'FISICO' | 'VIRTUAL',
+    fecha_gestionada?:string
+
 }
 
 export interface IResponseCreacionEntidad extends IRespuestaGeneralAction{
@@ -47,7 +51,8 @@ export interface IResponseInformacionBasicaEntidad{
 }
 
 export interface IResponseUsuariosEntidadResumen extends IRespuestaGeneralAction{
-    usuarios:IUsuarioEntidadResumen[]
+    usuarios:IUsuarioEntidadResumen[],
+    gestionada:1|0
 }
 
 export interface IResponseUsuarioCoordinador extends IRespuestaGeneralAction{
@@ -97,5 +102,11 @@ export interface IInfoContratoEntidad{
     cod_entidad:string, 
     nombre:string,
     nit:string,
-    info_contrato:string
+    info_contrato:string,
+    no_contrato:string,
+    fecha_inicio:string,
+    fecha_final:string, 
+    gestionada:string,
+    fecha_gestionada?:string,
+    entrega_bonos?:'FISICO' | 'VIRTUAL',
 }

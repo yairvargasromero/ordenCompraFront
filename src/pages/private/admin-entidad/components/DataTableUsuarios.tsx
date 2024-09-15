@@ -7,6 +7,7 @@ import { IUsuarioEntidadResumen } from '../../../../interfaces/entidad.interface
 import LoadingSpinnerScreen from '../../../../components/loadingSpinnerScreen/LoadingSpinnerScreen';
 import { useFilteredData } from '../../../../hooks/useFilteredData';
 import { DialogEditarUsuarioEntidad } from './DialogEditarUsuarioEntidad';
+import Swal from 'sweetalert2';
 
 interface Props {
     codEntidad: string,
@@ -30,6 +31,7 @@ export const DataTableUsuarios = ({ codEntidad, refreshUsuarios ,sendTotalUsuari
     const [openLoadingSpinner, setLoadingSpinner] = useState<boolean>(false);
     const [openEditUsuario, setOpenEditUsuario] = useState(false);
     const [usuarios, setUsuarios] = useState<IUsuarioEntidadResumen[]>([]);
+    const [entidadGestionada, setEntidadGestionada] = useState<1|0>(0);
     const [usuarioEditar, setUsuarioEditar] = useState<IUsuarioEntidadResumen>(defaultUsuario)
     const { search, setSearch, filteredData } = useFilteredData(usuarios);
     const columns = [
@@ -98,6 +100,7 @@ export const DataTableUsuarios = ({ codEntidad, refreshUsuarios ,sendTotalUsuari
         if (response?.error == 0) {
             setUsuarios(response.usuarios)
             sendTotalUsuarios(response.usuarios.length)
+            setEntidadGestionada(response.gestionada)
         }
     }
 
@@ -112,8 +115,15 @@ export const DataTableUsuarios = ({ codEntidad, refreshUsuarios ,sendTotalUsuari
     }
 
     const handleClickCrearClienteEntidad = () => {
-        setUsuarioEditar(defaultUsuario)
-        setOpenEditUsuario(true)
+        if(!!entidadGestionada){
+            Swal.fire({
+                icon:'warning',
+                text:'El coordinador ya gestiono la orden, por lo que no puede crear más usuarios asociados a esta entidad'
+            })
+        }else{   
+            setUsuarioEditar(defaultUsuario)
+            setOpenEditUsuario(true)
+        }
     };
 
     const handleCloseEditUsuario = (actualizarUsuarios: boolean) => {

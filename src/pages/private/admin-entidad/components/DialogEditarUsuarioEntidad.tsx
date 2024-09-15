@@ -56,6 +56,7 @@ export const DialogEditarUsuarioEntidad = ({ codEntidad, openDialog, usuario, on
         }
         delete dataAux.cod_usuario
         delete dataAux.cod_orden
+        delete dataAux.cargo_entidad
 
         if (usuario.cod_usuario) {
             updateUsuarioEntidad(dataAux)

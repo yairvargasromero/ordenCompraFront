@@ -68,7 +68,9 @@ export interface IOrdenValidar {
 }
 
 export interface IResponseUsuariosGestionar extends IRespuestaGeneralAction {
-    usuarios: IUsuarioGestionar[]
+    usuarios: IUsuarioGestionar[],
+    gestionada:boolean,
+    fecha_gestionada?:string
 }
 
 export interface IUsuarioGestionar extends IUsuarioEntidadResumen {

@@ -1,7 +1,7 @@
 import { Breadcrumbs, Typography } from '@mui/material'
 import React from 'react'
-import Link from '@mui/material/Link';
 import { useCartStore } from '../../../../store/cart/cart-store';
+import { Link } from 'react-router-dom';
 
 export const BreadCrumbsCart = () => {
 
@@ -9,7 +9,7 @@ export const BreadCrumbsCart = () => {
 
   return (
     <Breadcrumbs aria-label="breadcrumb">
-        <Link underline="hover" color="inherit" href={`/ordenes-compra/${usuarioOrden?.cod_usuario}`}>
+        <Link color="inherit" to={`/ordenes-compra/${usuarioOrden?.cod_usuario}`}>
           Productos
         </Link>
         
