@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 import { Swiper as SwiperObject } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, FreeMode, Navigation, Thumbs } from 'swiper/modules';
+import InnerImageZoom from 'react-inner-image-zoom';
+import 'react-inner-image-zoom/lib/InnerImageZoom/styles.css';
+
 
 
 import 'swiper/css';
@@ -21,78 +24,78 @@ interface Props {
 
 
 
-export const ProductSlideshow = ( { images, title, className }: Props ) => {
+export const ProductSlideshow = ({ images, title, className }: Props) => {
 
-  const [ thumbsSwiper, setThumbsSwiper ] = useState<SwiperObject>();
+  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperObject>();
   const [imagenesMostrar, setImagenesMostrar] = useState<string[]>([])
 
   useEffect(() => {
     setImagenesMostrar(images)
   }, [images])
-  
+
 
   return (
-    <div className={ className }>
+    <div className={className}>
+
 
       <Swiper
-        style={ {
+        style={{
           '--swiper-navigation-color': '#fff',
           '--swiper-pagination-color': '#fff',
         } as React.CSSProperties
         }
-        spaceBetween={ 10 }
-        navigation={ true }
-        autoplay={{
-          delay: 2500
-        }}
-        thumbs={ {
+        spaceBetween={10}
+        navigation={true}
+        // autoplay={{
+        //   delay: 2500
+        // }}
+        thumbs={{
           swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null
-        } }
-        modules={ [ FreeMode, Navigation, Thumbs, Autoplay ] }
+        }}
+        modules={[FreeMode, Navigation, Thumbs, Autoplay]}
         className="mySwiper2"
       >
 
         {
-          imagenesMostrar.map( image => (
-            <SwiperSlide key={ image }>
-              
-                <LazyLoadImage
-                  className="w-full object-cover rounded"
-                  width={400}
-                  src={ `${ image }` }
-                  alt={ title }
-                  // className="rounded-lg object-fill"
-                />
-              
+          imagenesMostrar.map(image => (
+            <SwiperSlide key={image}>
+               <InnerImageZoom
+            src={image}
+            zoomType="click" // Puedes cambiar a "hover" si prefieres
+            zoomScale={1.5}
+            className="w-full object-cover rounded"
+          />
+
             </SwiperSlide>
 
-          ) )
+          ))
         }
       </Swiper>
 
 
       <Swiper
-        onSwiper={ setThumbsSwiper }
-        spaceBetween={ 10 }
-        slidesPerView={ 4 }
-        freeMode={ true }
-        watchSlidesProgress={ true }
-        modules={ [ FreeMode, Navigation, Thumbs ] }
+        onSwiper={setThumbsSwiper}
+        spaceBetween={10}
+        slidesPerView={4}
+        freeMode={true}
+        watchSlidesProgress={true}
+        modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper"
       >
         {
-          imagenesMostrar.map( image => (
-            <SwiperSlide key={ image }>
+          imagenesMostrar.map(image => (
+            <SwiperSlide key={image}>
+
               <LazyLoadImage
-                width={ 200 }
-                height={ 200 }
-                src={ `${ image }` }
-                alt={ title }
+                width={200}
+                height={200}
+                src={`${image}`}
+                alt={title}
                 className="rounded-lg object-fill"
               />
             </SwiperSlide>
 
-          ) )
+          ))
         }
       </Swiper>
 

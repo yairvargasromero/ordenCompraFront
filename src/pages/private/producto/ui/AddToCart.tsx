@@ -51,6 +51,7 @@ export const AddToCart = ({ producto, cambiarColor }: Props) => {
     addProductToCart(cartProducto);
     setPosted(false);
     setQuantity(1);
+    handleCantidadSeleccionada(1)
     setSize(undefined);
 
 

@@ -74,7 +74,7 @@ export const ResumenOrden = () => {
   const onSubmit: SubmitHandler<IFormDireccion> = async (data) => {
     try {
       let response = await actualizarOrdenCompra(orden?.cod_orden || 0, data)
-      if (response?.error === 1) {
+      if (response) {
         Swal.fire(response.msg)
       }
     } catch (e) {

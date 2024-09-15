@@ -17,7 +17,7 @@ FROM nginx:1.17.1-alpine
 COPY --from=build /usr/src/app/build/ /usr/share/nginx/html
 
 # Copiar la configuración personalizada de Nginx
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+#COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Exponer el puerto 3000, según tu configuración de Nginx
 EXPOSE 3000

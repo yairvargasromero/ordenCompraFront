@@ -1,12 +1,13 @@
-version: '3.8'
-
 services:
   app:
     build: .
     # image: ghcr.io/cris590/ordencompra-front-v2
-    container_name: frontend_ordenes
+    # container_name: frontend_ordenes
+    
     ports:
       - "3000:3000"
+    volumes:
+        - ./nginx.conf:/etc/nginx/conf.d/default.conf
     # volumes:
       # - .:/usr/src/app
       # - /usr/src/app/node_modules

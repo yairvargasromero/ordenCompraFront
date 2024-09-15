@@ -17,7 +17,10 @@ const defaulValueProducto: IInformacionBasicaEntidad = {
     nombre: '',
     activo: 0,
     nit: '',
-    info_contrato: ''
+    info_contrato: '',
+    no_contrato: '',
+    fecha_inicio: '',
+    fecha_final: ''
 }
 
 
@@ -26,7 +29,7 @@ export const InformacionBasicaEntidad = ({ codEntidad }: Props) => {
 
     const [openLoadingSpinner, setLoadingSpinner] = useState<boolean>(false)
     const [isFocused, setIsFocused] = useState(false);
-    
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -37,7 +40,7 @@ export const InformacionBasicaEntidad = ({ codEntidad }: Props) => {
         }
     }, [codEntidad])
 
-   
+
 
     const obtenerInfoEntidad = async (codEntidad: string) => {
         let response = await obtenerInfoBasicaEntidad(codEntidad)
@@ -53,7 +56,7 @@ export const InformacionBasicaEntidad = ({ codEntidad }: Props) => {
         }
     }
 
-    const { register, handleSubmit, reset, control, formState: { isValid }, watch } = useForm<IInformacionBasicaEntidad>({
+    const { handleSubmit, reset, control, formState: { isValid }, watch } = useForm<IInformacionBasicaEntidad>({
         defaultValues: defaulValueProducto
     });
 
@@ -119,6 +122,57 @@ export const InformacionBasicaEntidad = ({ codEntidad }: Props) => {
                         )}
                     />
 
+                    <br />
+                    <Controller
+                        name="no_contrato"
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field }) => (
+                            <TextField
+                                label="Número contrato"
+                                variant="outlined"
+                                {...field}
+                                value={field.value || ''}
+                            />
+                        )}
+                    />
+
+                    <div className='mt-6'>
+                        {/* Date input for fecha_inicio */}
+                        <Controller
+                            name="fecha_inicio"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <TextField
+                                    label="Fecha Inicio"
+                                    type="date"
+                                    InputLabelProps={{ shrink: true }}  // Keeps label up when value is empty
+                                    variant="outlined"
+                                    {...field}
+                                />
+                            )}
+                        />
+
+                        {/* Date input for fecha_fin */}
+                        <Controller
+                            name="fecha_final"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <TextField
+                                    label="Fecha Fin"
+                                    type="date"
+                                    InputLabelProps={{ shrink: true }}  // Keeps label up when value is empty
+                                    variant="outlined"
+                                    {...field}
+                                />
+                            )}
+                        />
+
+                    </div>
+
+
                     <Controller
                         name="info_contrato"
                         control={control}
@@ -127,7 +181,7 @@ export const InformacionBasicaEntidad = ({ codEntidad }: Props) => {
                             <>
                                 <InputLabel className='mt-4'>Información del contrato</InputLabel>
                                 <TextareaAutosize
-                                    
+
                                     minRows={2}
                                     placeholder="Info..."
                                     {...field}
@@ -145,14 +199,14 @@ export const InformacionBasicaEntidad = ({ codEntidad }: Props) => {
                                         backgroundColor: '#fff',
                                         boxShadow: 'inset 0 1px 1px rgba(0, 0, 0, 0.075)',
                                         transition: 'border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s',
-                                      }}
+                                    }}
                                 />
                             </>
 
                         )}
                     />
 
-                   
+
                     <Controller
                         name="activo"
                         control={control}
@@ -170,8 +224,8 @@ export const InformacionBasicaEntidad = ({ codEntidad }: Props) => {
                             </>
                         )}
                     />
-
-                    <Button disabled={!isValid} type='submit'>
+                    <br/>
+                    <Button disabled={!isValid} type='submit' variant='contained'>
                         {(!codEntidad || +codEntidad === 0) ? 'Crear Entidad' : 'Editar Entidad'}
                     </Button>
                 </div>

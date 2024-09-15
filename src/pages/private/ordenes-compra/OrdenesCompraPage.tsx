@@ -7,6 +7,8 @@ import Swal from "sweetalert2";
 import { useCartStore } from "../../../store/cart/cart-store";
 import { ControlCategorias } from "../cart/ui/ControlCategorias";
 import { useNavigate, useParams } from "react-router-dom";
+import { TextField } from "@mui/material";
+import { useFilteredData } from "../../../hooks/useFilteredData";
 
 export const OrdenesCompraPage = () => {
 
@@ -16,6 +18,8 @@ export const OrdenesCompraPage = () => {
   const navigate = useNavigate()
 
   const session = useUserStore(state => state.user);
+  const { search, setSearch, filteredData } = useFilteredData(productos);
+
 
   useEffect(() => {
     const usuarioId = codUsuario ? +codUsuario : session?.cod_usuario;
@@ -87,9 +91,19 @@ export const OrdenesCompraPage = () => {
       }
 
       <div className="grid grid-cols-[20%_1fr] h-screen">
-
-        <ControlCategorias />
-        <ProductGrid productos={productos} />
+        <div>
+        <br />
+        <TextField
+                type="text"
+                label="Buscar Producto"
+                placeholder="Buscar..."
+                className="border rounded p-2 my-4"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+          <ControlCategorias />
+        </div>
+        <ProductGrid productos={filteredData} />
       </div>
     </>
   );

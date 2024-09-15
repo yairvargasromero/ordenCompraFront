@@ -21,38 +21,39 @@ import { ControlOrdenes } from '../pages/private/control-ordenes/ControlOrdenes'
 import { GuiaUso } from '../pages/private/guia-uso/GuiaUso';
 
 const AppRouter: React.FC = () => {
+  const basename = process.env.REACT_APP_BASE_URL || '';
   return (
-    <Router>
+    <Router basename={basename}>
       <Routes>
         {/* Auth routes */}
         <Route path="/auth/login" element={<LoginPage />} />
 
         {/* Private routes with layout */}
         <Route path="/" element={<PanelLayout />}>
-          <Route path="categorias" element={<RouteGuard element={<CategoriasPage />} />} />
-          <Route path="productos" element={<RouteGuard element={<ProductosPage />} />} />
-          <Route path="productos/editar-producto/:codProducto" element={<RouteGuard element={<EditarProducto />} />} />
-          <Route path="tallajes" element={<RouteGuard element={<TallajesPage />} />} />
-          <Route path="entidades" element={<RouteGuard element={<EntidadesPage />} />} />
-          <Route path="entidades/admin-entidad/:codEntidad" element={<RouteGuard element={<AdminEntidad />} />} />
-          <Route path="ordenes-compra/:codUsuario?" element={<RouteGuard element={<OrdenesCompraPage />} />} />
-          <Route path="empty" element={<RouteGuard element={<EmptyPage />} />} />
-          <Route path="cart" element={<RouteGuard element={<CartPage />} />} />
-          <Route path="producto/:codProducto" element={<RouteGuard element={<ProductBySlugPage />} />} />
-          <Route path="resumen_orden/:codUsuario" element={<RouteGuard element={<ResumenOrden />} />} />
+          <Route path="/categorias" element={<RouteGuard element={<CategoriasPage />} />} />
+          <Route path="/productos" element={<RouteGuard element={<ProductosPage />} />} />
+          <Route path="/productos/editar-producto/:codProducto" element={<RouteGuard element={<EditarProducto />} />} />
+          <Route path="/tallajes" element={<RouteGuard element={<TallajesPage />} />} />
+          <Route path="/entidades" element={<RouteGuard element={<EntidadesPage />} />} />
+          <Route path="/entidades/admin-entidad/:codEntidad" element={<RouteGuard element={<AdminEntidad />} />} />
+          <Route path="/ordenes-compra/:codUsuario?" element={<RouteGuard element={<OrdenesCompraPage />} />} />
+          <Route path="/empty" element={<RouteGuard element={<EmptyPage />} />} />
+          <Route path="/cart" element={<RouteGuard element={<CartPage />} />} />
+          <Route path="/producto/:codProducto" element={<RouteGuard element={<ProductBySlugPage />} />} />
+          <Route path="/resumen_orden/:codUsuario" element={<RouteGuard element={<ResumenOrden />} />} />
           
-          <Route path="guia-uso" element={<RouteGuard element={<GuiaUso />} />} />
+          <Route path="/guia-uso" element={<RouteGuard element={<GuiaUso />} />} />
 
-          <Route path="solicitud-dotacion" element={<RouteGuard element={<SolicitudesDotacion />} />} />
-          <Route path="control-ordenes" element={<RouteGuard element={<ControlOrdenes />} />} />
-          <Route path="info-entidad" element={<RouteGuard element={<InfoEntidadContrato />} />} />
+          <Route path="/solicitud-dotacion" element={<RouteGuard element={<SolicitudesDotacion />} />} />
+          <Route path="/control-ordenes" element={<RouteGuard element={<ControlOrdenes />} />} />
+          <Route path="/info-entidad" element={<RouteGuard element={<InfoEntidadContrato />} />} />
 
-          <Route path="404" element={<PageNotFound />} />
-          <Route path="*" element={<PageNotFound />} />
+          <Route path="/404" element={<PageNotFound />} />
+          <Route path="/*" element={<PageNotFound />} />
         </Route>
 
         {/* 404 Not Found route */}
-        <Route path="*" element={<PageNotFound />} />
+        <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </Router>
   );

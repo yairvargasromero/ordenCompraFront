@@ -6,6 +6,8 @@ import { IoInformationOutline } from "react-icons/io5";
 import clsx from 'clsx';
 import { useUserStore } from '../../../store/user/user';
 import { loginBackend } from '../../../actions/auth/login';
+import { useNavigate } from 'react-router-dom';
+
 
 type FormInputs = {
     cedula: string;
@@ -19,13 +21,14 @@ export const LoginForm = () => {
     const setSideBarMenu = useUserStore((state) => state.fullFillMenu)
     const setUser = useUserStore((state) => state.loginUser)
     const setToken = useUserStore((state) => state.setToken)
+    const navigate = useNavigate();
 
     const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>();
 
     const onSubmit: SubmitHandler<FormInputs> = async (data) => {
 
         const { cedula, password } = data;
-
+        
         let result = await loginBackend(cedula, password)
 
         if (result && result.error == 0) {
@@ -39,7 +42,7 @@ export const LoginForm = () => {
             } else if (result.user.cod_perfil === 2) {
                 rutaRedirect = '/solicitud-dotacion'
             }
-            window.location.replace(rutaRedirect);
+            navigate(rutaRedirect);
         } else {
             setWronCredentials(false)
         }

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useUIStore } from '../../../store/ui/ui-store';
 import { useCartStore } from '../../../store/cart/cart-store';
 import { useUserStore } from '../../../store/user/user';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 export const TopMenu = () => {
 
@@ -36,13 +37,22 @@ export const TopMenu = () => {
 
 
           {/* Logo */}
-          <div >
+          <div className='flex flex-row'>
             <Link to="/">
-              <span className={`antialiased font-bold text-white`}>
-                BRT
-              </span>
-              <span className='text-white'> Ordenes</span>
+           
+              <LazyLoadImage
+                src="/imgs/logo.png"
+                alt="logo"
+                className="p-5 sm:p-0"
+                width={ 60}
+                height={ 60}
+              />
+
+              
             </Link>
+            <div className='text-white mx-4 mt-2'><span>NIT:</span> 901474311-8 </div>
+            <div className='text-white mx-a mt-2'>INVERSIONES BRT SAS</div>
+
           </div>
 
 

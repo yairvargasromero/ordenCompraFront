@@ -5,6 +5,7 @@ export interface IEntidadResumen {
     nombre:string,
     activo:1|0,
     nit:string,
+    gestionada:1|0
 }
 
 export interface IResponseEntidadResumen {
@@ -16,14 +17,20 @@ export interface IInformacionBasicaEntidad {
     nombre:string,
     activo:1|0,
     nit:string,
-    info_contrato:string
+    info_contrato:string,
+    no_contrato:string,
+    fecha_inicio:string,
+    fecha_final:string
 }
 
 export interface IInformacionBasicaEntidadGuardar {
     nombre:string,
     activo:1|0,
     nit:string,
-    info_contrato:string
+    info_contrato:string,
+    no_contrato:string,
+    fecha_inicio:string,
+    fecha_final:string
 }
 
 export interface IResponseCreacionEntidad extends IRespuestaGeneralAction{
