@@ -13,7 +13,8 @@ import { Button, TextField } from '@mui/material';
 
 interface IFormDireccion {
   ciudad: string,
-  direccion: string
+  direccion: string,
+  observaciones: string
 }
 
 export const ResumenOrden = () => {
@@ -25,7 +26,7 @@ export const ResumenOrden = () => {
   const navigate = useNavigate()
 
   const { register, handleSubmit, reset, control, formState: { isValid }, watch } = useForm<IFormDireccion>({
-    defaultValues: { ciudad: '', direccion: '' }
+    defaultValues: { ciudad: '', direccion: '', observaciones:'' }
   });
 
 
@@ -54,7 +55,8 @@ export const ResumenOrden = () => {
           setCategorias(ordenUsuario.categorias)
           reset({
             ciudad: ordenUsuario.orden?.ciudad,
-            direccion: ordenUsuario.orden?.direccion
+            direccion: ordenUsuario.orden?.direccion,
+            observaciones: ordenUsuario.orden?.observaciones
           })
         } else {
           navigate('/')
@@ -101,10 +103,10 @@ export const ResumenOrden = () => {
         <ControlCategorias mostrarSoloTotal={true} />
         <div>
           {session?.cod_perfil === 2 ? (
-            <form onSubmit={handleSubmit(onSubmit)} className='flex justify-start'>
+            <form onSubmit={handleSubmit(onSubmit)} className=''>
 
 
-              <div className="flex flex-row justify-center  m-6">
+              <div className="flex flex-row justify-center  mx-4 mt-6">
                 <Controller
                   name="ciudad"
                   control={control}
@@ -137,12 +139,35 @@ export const ResumenOrden = () => {
                     />
                   )}
                 />
-                <div className='mx-4'>
+
+
+
+
+              </div>
+
+              <div className='mx-4 flex flex-row justify-between items-center'>
+                <Controller
+                  name="observaciones"
+                  control={control}
+                  rules={{ required: false }}
+                  render={({ field }) => (
+
+                    <TextField
+                      fullWidth
+                      label="Observaciones coordinador"
+                      variant="outlined"
+                      {...field}
+                      value={field.value || ''}
+                    />
+                  )}
+                />
+                <div className='my-4'>
                   <Button type='submit' disabled={!isValid}>
                     Guardar Cambios
                   </Button>
                 </div>
               </div>
+
 
             </form>
           ) : <>
@@ -167,7 +192,19 @@ export const ResumenOrden = () => {
                   shrink: Boolean(orden?.direccion), // Force the label to shrink when there's a value
                 }}
               />
+
+              
             </div>
+            <TextField
+                fullWidth
+                label="Observaciones coordinador"
+                variant="outlined"
+                disabled
+                value={orden?.observaciones}
+                InputLabelProps={{
+                  shrink: Boolean(orden?.observaciones), // Force the label to shrink when there's a value
+                }}
+              />
           </>
           }
 

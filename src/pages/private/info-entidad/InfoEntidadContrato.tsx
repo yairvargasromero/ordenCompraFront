@@ -56,9 +56,10 @@ export const InfoEntidadContrato = () => {
       <hr/>
 
       {
-        (!!infoContrato?.gestionada) &&
+        (!!infoContrato?.gestionada) ?
         <div className="my-4">
-          <p><span className="font-bold">Fecha gestion solicitud: </span>{infoContrato.fecha_gestionada}</p>
+          <p className="text-red-700 text-lg">NO ORDEN: {infoContrato.no_orden}</p>
+          <p><span className="font-bold">Fecha gestion solicitud: </span>{formatDate(infoContrato.fecha_gestionada || '')}</p>
 
           <p className="mb-4"><span className="font-bold">Método de entrega de bonos seleccionado por el coordinador: </span>{infoContrato.entrega_bonos}</p>
           {
@@ -70,7 +71,9 @@ export const InfoEntidadContrato = () => {
             </Button>
           }
 
-        </div>
+        </div>:
+        <p className="text-red-500 text-xl my-2" >Pendiente por completar, por favor dirigete a 
+          <span className="font-semibold"> Control Ordenes</span> para terminar de gestionar.</p>
       }
 
       <p className="my-6 font-bold md underline text-gray-500">Información del contrato</p>

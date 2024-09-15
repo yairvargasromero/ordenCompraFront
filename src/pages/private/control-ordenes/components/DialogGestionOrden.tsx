@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { editarEntidad } from '../../../../actions/entidad/entidad';
+import { generarNumeroAleatorio } from '../../../../utils/randomNumber';
 interface Props {
   openDialog: boolean;
   codEntidad:number;
@@ -44,8 +45,9 @@ export const DialogGestionOrden = ({  openDialog, onClose ,codEntidad }:Props) =
           const colombiaDateISOString = colombiaDate.toISOString();
 
             let aux = {
-              gestionada:true,
-              fecha_gestionada:colombiaDateISOString,
+              gestionada: true,
+              fecha_gestionada: colombiaDateISOString,
+              no_orden: generarNumeroAleatorio(7),
               ...data
             }
             let res = await editarEntidad( aux , codEntidad )
@@ -55,6 +57,7 @@ export const DialogGestionOrden = ({  openDialog, onClose ,codEntidad }:Props) =
                 onClose(true)
               }
             }
+            onClose(false)
            
         } catch (e) {
           Swal.fire({

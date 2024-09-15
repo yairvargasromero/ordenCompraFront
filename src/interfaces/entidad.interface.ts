@@ -109,4 +109,5 @@ export interface IInfoContratoEntidad{
     gestionada:string,
     fecha_gestionada?:string,
     entrega_bonos?:'FISICO' | 'VIRTUAL',
+    no_orden?:string
 }

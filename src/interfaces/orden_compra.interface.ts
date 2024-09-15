@@ -64,7 +64,8 @@ export interface IOrdenValidar {
     direccion?: string,
     ciudad?: string,
     productos: CartProducto[],
-    usuario_creacion: string
+    usuario_creacion: string,
+    observaciones:string
 }
 
 export interface IResponseUsuariosGestionar extends IRespuestaGeneralAction {
