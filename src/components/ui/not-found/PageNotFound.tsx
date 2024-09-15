@@ -14,7 +14,7 @@ export const PageNotFound = () => {
 
       <div className="px-5 mx-5">
         <LazyLoadImage
-          src="/imgs/404.png"
+          src={`${process.env.PUBLIC_URL}/imgs/404.png`}
           alt="Starman"
           className="p-5 sm:p-0"
           width={ 550 }

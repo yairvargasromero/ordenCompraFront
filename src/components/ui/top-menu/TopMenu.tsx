@@ -41,7 +41,7 @@ export const TopMenu = () => {
             <Link to="/">
            
               <LazyLoadImage
-                src="/imgs/logo.png"
+                src={`${process.env.PUBLIC_URL}/imgs/logo.png`}
                 alt="logo"
                 className="p-5 sm:p-0"
                 width={ 60}
