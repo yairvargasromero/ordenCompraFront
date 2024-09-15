@@ -8,8 +8,10 @@ RUN npm install
 
 # Copiar el código fuente y construir la aplicación
 COPY . .
-ARG PUBLIC_URL=/ordenes_dev
-ENV PUBLIC_URL=$PUBLIC_URL
+ARG PUBLIC_URL
+ARG REACT_APP_API_URL
+ENV PUBLIC_URL=${PUBLIC_URL}
+ENV REACT_APP_API_URL=${REACT_APP_API_URL}
 
 RUN npm run build
 

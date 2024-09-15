@@ -1,7 +1,7 @@
 import EditarProducto from "../pages/private/editar-producto/EditarProducto";
 import { obtenerUsuariosCoordinador } from "./entidad/entidad";
 
-const apiUrl = process.env.REACT_APP_BACKEND_URL;
+const apiUrl = process.env.REACT_APP_API_URL;
 
 export const actionsSettings  = {
     backendRoutes:{

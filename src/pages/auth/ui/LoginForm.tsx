@@ -27,11 +27,6 @@ export const LoginForm = () => {
 
     const onSubmit: SubmitHandler<FormInputs> = async (data) => {
 
-        const basename = process.env.REACT_APP_BASE_URL || '';
-        console.log('----> ', basename)
-        console.log(process.env)
-        
-
         const { cedula, password } = data;
         
         let result = await loginBackend(cedula, password)

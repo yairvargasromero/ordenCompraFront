@@ -25,13 +25,20 @@ jobs:
         run: |
           if [ "${{ github.ref_name }}" == "production" ]; then
             echo "TAG=prod" >> $GITHUB_ENV
+            echo "PUBLIC_URL=/ordenes" >> $GITHUB_ENV
+            echo "REACT_APP_API_URL=http://93.127.217.189/ordenes/api" >> $GITHUB_ENV
           elif [ "${{ github.ref_name }}" == "development" ]; then
             echo "TAG=test" >> $GITHUB_ENV
+            echo "PUBLIC_URL=/ordenes_dev" >> $GITHUB_ENV
+            echo "REACT_APP_API_URL=http://93.127.217.189/ordenes_dev_api/api" >> $GITHUB_ENV
           fi
 
       - name: Build and push Docker image
         run: |
-          docker build . --tag ghcr.io/cris590/ordencompra-front-v2:${{ env.TAG }}
+          docker build . \
+            --build-arg PUBLIC_URL=${{ env.PUBLIC_URL }} \
+            --build-arg REACT_APP_API_URL=${{ env.REACT_APP_API_URL }} \
+            --tag ghcr.io/cris590/ordencompra-front-v2:${{ env.TAG }}
           docker push ghcr.io/cris590/ordencompra-front-v2:${{ env.TAG }}
 
   deploy:
