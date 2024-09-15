@@ -17,7 +17,7 @@ export const PanelLayout =() => {
       if (session?.cod_usuario) {
         setLoading(false);
       } else {
-        navigate('/login');
+        navigate('/auth/login');
       }
 
     };
