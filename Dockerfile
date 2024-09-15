@@ -8,6 +8,9 @@ RUN npm install
 
 # Copiar el código fuente y construir la aplicación
 COPY . .
+ARG PUBLIC_URL=/ordenes_dev
+ENV PUBLIC_URL=$PUBLIC_URL
+
 RUN npm run build
 
 # Etapa de despliegue usando Nginx
