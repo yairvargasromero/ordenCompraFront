@@ -24,5 +24,5 @@ COPY --from=build /usr/src/app/build/ /usr/share/nginx/html
 # Copiar la configuración personalizada de Nginx
 #COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Exponer el puerto 3000, según tu configuración de Nginx
-EXPOSE 3000
+# Exponer el puerto 80, según tu configuración de Nginx
+EXPOSE 80
