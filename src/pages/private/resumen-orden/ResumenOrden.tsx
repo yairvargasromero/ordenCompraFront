@@ -21,7 +21,7 @@ export const ResumenOrden = () => {
 
   const { codUsuario } = useParams<{ codUsuario: string }>();
   const [orden, setOrden] = useState<IOrdenValidar>()
-  const setCategorias = useCartStore((state) => state.setCategorias)
+  const {setCategorias, setInfoUsuarioOrden} = useCartStore((state) => state)
   const session = useUserStore(state => state.user);
   const navigate = useNavigate()
 
@@ -51,6 +51,7 @@ export const ResumenOrden = () => {
         if (ordenUsuario && ordenUsuario.error === 0 && (ordenUsuario.existe === 0)) {
           navigate('/ordenes-compra')
         } else if (ordenUsuario && ordenUsuario.existe === 1) {
+          setInfoUsuarioOrden(ordenUsuario.usuario)
           setOrden(ordenUsuario.orden)
           setCategorias(ordenUsuario.categorias)
           reset({
