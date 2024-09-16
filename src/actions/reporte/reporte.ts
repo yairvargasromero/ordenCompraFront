@@ -38,3 +38,25 @@ export const reporteGeneralEntidad = async (codEntidad: number) => {
         // Manejo del error
       }
 }
+
+export const descargarBonosEntidad = async ( codEntidad:number) => {
+  try {
+    const response = await axios.get(`${actionsSettings.backendRoutes.bonosEntidad}/${codEntidad}`,
+      {
+      responseType: 'blob', // Importante para recibir archivos binarios
+      headers: {
+        'Authorization': getAuthToken()
+      },
+    });
+
+    // Crear un enlace para descargar el archivo
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'reporte.pdf'); // Nombre del archivo
+    document.body.appendChild(link);
+    link.click();
+  } catch (error) {
+    console.error('Error al descargar el PDF:', error);
+  }
+};

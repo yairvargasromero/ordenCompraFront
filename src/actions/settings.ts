@@ -61,6 +61,7 @@ export const actionsSettings  = {
 
         obtenerSolicitudesPendientes:`${apiUrl}/solicitud_dotacion/ordenes_pendientes`,
         reporteGeneralEntidad:`${apiUrl}/reporte/reporte_general_entidad`,
+        bonosEntidad:`${apiUrl}/reporte/bonos_usuario`,
 
         login:`${apiUrl}/users/authentication`,
     }

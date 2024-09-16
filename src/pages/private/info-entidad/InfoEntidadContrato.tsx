@@ -4,10 +4,13 @@ import { IInfoContratoEntidad } from "../../../interfaces/entidad.interface"
 import Swal from "sweetalert2"
 import { Button, TextareaAutosize } from "@mui/material"
 import { formatDate } from "../../../utils/formatDate"
+import { descargarBonosEntidad } from "../../../actions/reporte/reporte"
+import { useUserStore } from "../../../store/user/user"
 
 export const InfoEntidadContrato = () => {
 
   const [infoContrato, setInfoContrato] = useState<IInfoContratoEntidad>()
+  const session = useUserStore((state)=>state.user)
   useEffect(() => {
     getInfoContrato()
   }, [])
@@ -29,7 +32,7 @@ export const InfoEntidadContrato = () => {
   }
 
   const handleDescargaMasivaBonos = async () => {
-
+    await descargarBonosEntidad(session?.cod_entidad || 0)
   }
 
   return (

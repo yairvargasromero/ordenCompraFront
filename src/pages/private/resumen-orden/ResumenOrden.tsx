@@ -10,6 +10,7 @@ import { useCartStore } from '../../../store/cart/cart-store';
 import { formatDate } from '../../../utils/formatDate';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Button, TextField } from '@mui/material';
+import { BreadCrumbsResumen } from './components/BreadCrumbsResumen';
 
 interface IFormDireccion {
   ciudad: string,
@@ -92,6 +93,11 @@ export const ResumenOrden = () => {
 
   return (
     <>
+      
+      <br />
+       {
+        (session?.cod_perfil === 2) && <BreadCrumbsResumen />
+       }
       <h3 className='my-4 font-bold text-lg'>Resumen de orden</h3>
 
       <div className="w-100 bg-orange-400 p-4">
