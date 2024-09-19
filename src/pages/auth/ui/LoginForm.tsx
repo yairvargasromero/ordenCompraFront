@@ -40,7 +40,7 @@ export const LoginForm = () => {
             if (result.user.cod_perfil === 1) {
                 rutaRedirect = '/entidades'
             } else if (result.user.cod_perfil === 2) {
-                rutaRedirect = '/solicitud-dotacion'
+                rutaRedirect = '/guia-uso'
             }
             navigate(rutaRedirect);
         } else {
