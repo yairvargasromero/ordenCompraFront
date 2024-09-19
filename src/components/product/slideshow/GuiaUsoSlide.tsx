@@ -52,10 +52,10 @@ export const GuiaUsoSlide = ({ usuario, className }: Props) => {
 
     useEffect(() => {
         if (usuario) {
-            const images = imagenesUsuario.map(name => `/guia_uso/usuario/${name}`);
+            const images = imagenesUsuario.map(name => `${process.env.PUBLIC_URL}/guia_uso/usuario/${name}`);
             setImagenesMostrar(images)
         } else {
-            const images = imagenesCoordinador.map(name => `/guia_uso/coordinador/${name}`);
+            const images = imagenesCoordinador.map(name => `${process.env.PUBLIC_URL}/guia_uso/coordinador/${name}`);
             setImagenesMostrar(images)
         }
     }, [usuario])
