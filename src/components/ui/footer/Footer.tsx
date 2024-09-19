@@ -4,17 +4,23 @@ export const Footer = () => {
   return (
     <div className="flex w-full justify-center text-sm mb-10">
 
+     
+
+      <div className="flex flex-col mx-4">
       <Link
         to='/'
       >
-        <span className={`antialiased font-bold `}>BRT</span>
+        <span className={`antialiased font-bold `}>Inversiones BRT</span>
         <span> Ordenes </span>
         <span>© {new Date().getFullYear()}</span>
       </Link>
 
-      <div className="flex flex-col mx-4">
+        <br/>
         <p>Direccion de la empresa</p>
-        <p>Calle 10</p>
+        <p>Carrera 18 No° 16-44 sur piso 3</p>
+
+        <br/>
+        <p> <span className="font-bold">Fecha Actualizacion</span> {process.env.REACT_APP_LAST_UPDATE}</p>
       </div>
 
       <div className="flex flex-col mx-4 max-w-sm">

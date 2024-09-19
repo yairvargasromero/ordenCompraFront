@@ -66,7 +66,7 @@ export const InfoEntidadContrato = () => {
 
           <p className="mb-4"><span className="font-bold">Método de entrega de bonos seleccionado por el coordinador: </span>{infoContrato.entrega_bonos}</p>
           {
-            (infoContrato.entrega_bonos === 'VIRTUAL') &&
+            (infoContrato.entrega_bonos === 'FISICO') &&
             <Button
               variant="outlined"
               onClick={handleDescargaMasivaBonos}>
