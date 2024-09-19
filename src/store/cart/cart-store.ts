@@ -188,22 +188,37 @@ export const useCartStore = create<State>()(
         const updatedCategoriasSeleccionada = { ...categoriasSeleccionada };
 
         const updatedCartProductos = cart.filter((item) => {
+
           // Check if the product matches any of the conditions
-          if (item.cod_producto === product.cod_producto) {
+          if (item.cod_producto === product.cod_producto ) {
+            
 
             // Resta la cantidad del producto a la categoría correspondiente
-            if (updatedCategoriasSeleccionada[product.cod_categoria]) {
-              updatedCategoriasSeleccionada[product.cod_categoria].cantidadSeleccionada -= item.cantidad;
-            }
+            
 
             if (product.tiene_talla && product.tiene_color) {
               // Check both talla and color
+              if (item.cod_color_producto === product.cod_color_producto && item.talla === product.talla){
+                if (updatedCategoriasSeleccionada[product.cod_categoria]) {
+                  updatedCategoriasSeleccionada[product.cod_categoria].cantidadSeleccionada -= product.cantidad;
+                }
+              }
               return !(item.talla === product.talla && item.cod_color_producto === product.cod_color_producto);
             } else if (product.tiene_talla) {
               // Check talla
+              if (item.talla === product.talla) {
+                if (updatedCategoriasSeleccionada[product.cod_categoria]) {
+                  updatedCategoriasSeleccionada[product.cod_categoria].cantidadSeleccionada -= product.cantidad;
+                }
+              }
               return item.talla !== product.talla;
             } else if (product.tiene_color) {
               // Check color
+              if (item.cod_color_producto === product.cod_color_producto){
+                if (updatedCategoriasSeleccionada[product.cod_categoria]) {
+                  updatedCategoriasSeleccionada[product.cod_categoria].cantidadSeleccionada -= product.cantidad;
+                }
+              }
               return item.cod_color_producto !== product.cod_color_producto;
             }
           }

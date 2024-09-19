@@ -59,15 +59,13 @@ export const ProductSlideshow = ({ images, title, className }: Props) => {
         {
           imagenesMostrar.map(image => (
             <SwiperSlide key={image}>
-               <InnerImageZoom
-            src={image}
-            zoomType="click" // Puedes cambiar a "hover" si prefieres
-            zoomScale={1.5}
-            className="w-full object-cover rounded"
-          />
-
+                <LazyLoadImage
+                  className="w-full object-cover rounded"
+                  width={400}
+                  src={ `${ image }` }
+                  alt={ title }
+                />
             </SwiperSlide>
-
           ))
         }
       </Swiper>

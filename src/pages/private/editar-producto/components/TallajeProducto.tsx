@@ -93,7 +93,7 @@ export const TallajeProducto = ({ codProducto }: Props) => {
     const handleChangeTallaje = async (event: any) => {
         setTallajeSeleccionado(+event.target.value)
         setLoadingSpinner(true)
-        let response = await editarProducto({ cod_tallaje: tallajeSeleccionado }, +codProducto);
+        let response = await editarProducto({ cod_tallaje: +event.target.value }, +codProducto);
         if (response?.error === 0) {
             if (response) {
                 Swal.fire(response.msg)
@@ -126,11 +126,11 @@ export const TallajeProducto = ({ codProducto }: Props) => {
                         <div className='flex flox-row'>
 
 
-                            <div >
+                            <div className='max-w-[70%] '>
                                 <p className='font-semibold font-md my-4'> Seleccion de Tallas </p>
-                                <div className='flex justify-start my-5'>
+                                <div className='flex justify-start flex-wrap my-5'>
                                     {tallas.map((input, index) => (
-                                        <div key={index} className=" flex row justify-start" >
+                                        <div key={index} className=" flex row justify-start my-3" >
                                             <TextField
                                                 label={`Talla ${index + 1}`}
                                                 variant="outlined"
