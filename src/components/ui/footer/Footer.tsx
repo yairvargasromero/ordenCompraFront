@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { formatDate } from "../../../utils/formatDate";
 
 export const Footer = () => {
   return (
@@ -19,7 +20,7 @@ export const Footer = () => {
         <p>Direccion de la empresa</p>
         <p>Carrera 18 No° 16-44 sur piso 3</p>
         <br/>
-        <p> <span className="font-bold">Fecha Actualizacion</span> {process.env.REACT_APP_LAST_UPDATE}</p>
+        <p> <span className="font-bold">Fecha Actualizacion</span> {formatDate('2024-09-19T14:59:54')}</p>
       </div>
 
       <div className="flex flex-col mx-4 max-w-sm">
