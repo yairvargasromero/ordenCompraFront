@@ -76,7 +76,11 @@ export const ControlOrdenes = () => {
                                     }
                                 )
                             }
-                            onClick={() => navigate('/resumen_orden/' + row.cod_usuario)}
+                            onClick={() => navigate('/resumen_orden/' + row.cod_usuario ,
+                                {
+                                    state: { origin: 'control-ordenes' }
+                                }
+                            )}
                         >
                             {row.orden_completa ? 'Orden Completa' : 'Gestionar Orden'}
                         </button>

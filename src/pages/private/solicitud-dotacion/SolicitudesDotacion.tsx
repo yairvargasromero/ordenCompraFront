@@ -67,7 +67,9 @@ export const SolicitudesDotacion = () => {
     }
 
     const handleGestionarOrden = (codUsuario:number) => {
-        navigate('/resumen_orden/'+ codUsuario)
+        navigate('/resumen_orden/'+ codUsuario, {
+            state: { origin: 'solicitud-dotacion' }
+        })
     }
 
     return (

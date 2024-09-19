@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useUserStore } from '../../../store/user/user';
 import { actualizarOrdenCompra, validarOrdenUsuario } from '../../../actions/orden_compra/orden_compra';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { CardProducto } from './components/CardProducto';
 import { ICategoriaUsuario, IOrdenValidar } from '../../../interfaces/orden_compra.interface';
@@ -25,6 +25,10 @@ export const ResumenOrden = () => {
   const {setCategorias, setInfoUsuarioOrden} = useCartStore((state) => state)
   const session = useUserStore(state => state.user);
   const navigate = useNavigate()
+
+  const location = useLocation();
+  const { state } = location;
+  const origin = state?.origin;
 
   const { register, handleSubmit, reset, control, formState: { isValid }, watch } = useForm<IFormDireccion>({
     defaultValues: { ciudad: '', direccion: '', observaciones:'' }
@@ -96,7 +100,7 @@ export const ResumenOrden = () => {
       
       <br />
        {
-        (session?.cod_perfil === 2) && <BreadCrumbsResumen />
+        (session?.cod_perfil === 2) && <BreadCrumbsResumen  origin = {origin}/>
        }
       <h3 className='my-4 font-bold text-lg'>Resumen de orden</h3>
 
