@@ -37,12 +37,13 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build .
+          docker build . \
             --build-arg PUBLIC_URL=${{ env.PUBLIC_URL }} \
             --build-arg REACT_APP_API_URL=${{ env.REACT_APP_API_URL }} \
-            --build-arg REACT_APP_LAST_UPDATE=${{ env.REACT_APP_LAST_UPDATE }}
+            --build-arg REACT_APP_LAST_UPDATE=${{ env.REACT_APP_LAST_UPDATE }} \
             --tag ghcr.io/cris590/ordencompra-front-v2:${{ env.TAG }}
           docker push ghcr.io/cris590/ordencompra-front-v2:${{ env.TAG }}
+
 
   deploy:
     needs: create-docker-image
