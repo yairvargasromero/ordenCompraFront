@@ -18,7 +18,6 @@ export const Footer = () => {
         <br/>
         <p>Direccion de la empresa</p>
         <p>Carrera 18 No° 16-44 sur piso 3</p>
-
         <br/>
         <p> <span className="font-bold">Fecha Actualizacion</span> {process.env.REACT_APP_LAST_UPDATE}</p>
       </div>
