@@ -6,6 +6,12 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 
+# Instalar tzdata para manejar zonas horarias
+RUN apk add --no-cache tzdata
+
+# Configurar la zona horaria a America/Bogota (Colombia)
+ENV TZ=America/Bogota
+
 # Copiar el código fuente y construir la aplicación
 COPY . .
 ARG PUBLIC_URL
