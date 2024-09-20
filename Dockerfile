@@ -26,6 +26,12 @@ RUN npm run build
 # Etapa de despliegue usando Nginx
 FROM nginx:1.17.1-alpine
 
+# Instalar tzdata para manejar zonas horarias
+RUN apk add --no-cache tzdata
+
+# Configurar la zona horaria a America/Bogota (Colombia)
+ENV TZ=America/Bogota
+
 # Copiar la carpeta build generada en la etapa de construcción
 COPY --from=build /usr/src/app/build/ /usr/share/nginx/html
 
