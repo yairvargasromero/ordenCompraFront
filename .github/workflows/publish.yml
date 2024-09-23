@@ -20,18 +20,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.TOKEN_GITHUB }}
 
-      - name: Determine Docker Tag
-        id: docker-tag
-        run: |
-          if [ "${{ github.ref_name }}" == "production" ]; then
-            echo "TAG=prod" >> $GITHUB_ENV
-            echo "PUBLIC_URL=/ordenes" >> $GITHUB_ENV
-            echo "REACT_APP_API_URL=https://brtsistemas.com/ordenes_api/api" >> $GITHUB_ENV
-          elif [ "${{ github.ref_name }}" == "development" ]; then
-            echo "TAG=test" >> $GITHUB_ENV
-            echo "PUBLIC_URL=/ordenes_dev" >> $GITHUB_ENV
-            echo "REACT_APP_API_URL=https://brtsistemas.com/ordenes_dev_api/api" >> $GITHUB_ENV
-          fi
+      # - name: Determine Docker Tag
+      #   id: docker-tag
+      #   run: |
+      #     if [ "${{ github.ref_name }}" == "production" ]; then
+      #       echo "TAG=prod" >> $GITHUB_ENV
+      #       echo "PUBLIC_URL=/ordenes" >> $GITHUB_ENV
+      #       echo "REACT_APP_API_URL=https://brtsistemas.com/ordenes_api/api" >> $GITHUB_ENV
+      #     elif [ "${{ github.ref_name }}" == "development" ]; then
+      #       echo "TAG=test" >> $GITHUB_ENV
+      #       echo "PUBLIC_URL=/ordenes_dev" >> $GITHUB_ENV
+      #       echo "REACT_APP_API_URL=https://brtsistemas.com/ordenes_dev_api/api" >> $GITHUB_ENV
+      #     fi
       - name: Get current timestamp for REACT_APP_LAST_UPDATE
         id: timestamp
         run: |
